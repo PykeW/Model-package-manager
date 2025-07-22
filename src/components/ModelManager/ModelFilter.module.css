@@ -1,0 +1,92 @@
+/**
+ * ModelFilter组件样式
+ */
+
+.filterContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  background-color: var(--secondary-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.searchContainer {
+  width: 100%;
+}
+
+.searchInput {
+  width: 100%;
+  max-width: 400px;
+}
+
+.filtersContainer {
+  display: flex;
+  align-items: end;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  min-width: 120px;
+}
+
+.filterLabel {
+  font-size: var(--font-xs);
+  font-weight: var(--font-medium);
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.filterSelect {
+  min-width: 140px;
+}
+
+.resetButton {
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .filterContainer {
+    padding: var(--spacing-md);
+    gap: var(--spacing-sm);
+  }
+  
+  .filtersContainer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-sm);
+  }
+  
+  .filterGroup {
+    min-width: auto;
+  }
+  
+  .filterSelect {
+    min-width: auto;
+    width: 100%;
+  }
+  
+  .resetButton {
+    margin-left: 0;
+    align-self: flex-start;
+  }
+  
+  .searchInput {
+    max-width: none;
+  }
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+  .filterContainer {
+    border-width: 2px;
+  }
+}

@@ -1,0 +1,119 @@
+/**
+ * ModelManagerModal组件样式
+ */
+
+.modelManagerModal {
+  /* 确保模态窗口占满屏幕 */
+}
+
+.modalContent {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.managerContent {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.manager {
+  flex: 1;
+  overflow: hidden;
+}
+
+.managerActions {
+  position: absolute;
+  bottom: var(--spacing-lg);
+  right: var(--spacing-lg);
+  z-index: 10;
+}
+
+.addButton {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: var(--accent-color);
+  color: var(--text-primary);
+  border: none;
+  border-radius: var(--radius-xl);
+  font-size: var(--font-sm);
+  font-weight: var(--font-semibold);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-lg);
+}
+
+.addButton:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xl);
+}
+
+.addButton:active {
+  background-color: var(--accent-active);
+  transform: translateY(0);
+}
+
+.addIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  font-size: var(--font-md);
+  font-weight: var(--font-bold);
+}
+
+.formContent {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.detailContent {
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .managerActions {
+    bottom: var(--spacing-md);
+    right: var(--spacing-md);
+  }
+  
+  .addButton {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-xs);
+  }
+  
+  .addIcon {
+    width: 16px;
+    height: 16px;
+    font-size: var(--font-sm);
+  }
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+  .addButton {
+    border: 2px solid var(--text-primary);
+  }
+}
+
+/* 减少动画模式 */
+@media (prefers-reduced-motion: reduce) {
+  .addButton {
+    transition: none;
+  }
+  
+  .addButton:hover {
+    transform: none;
+  }
+}

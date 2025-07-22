@@ -1,0 +1,174 @@
+/**
+ * ModelTable组件样式
+ */
+
+.modelTable {
+  width: 100%;
+  height: 100%;
+}
+
+.table {
+  height: 100%;
+}
+
+/* 序号列样式 */
+.indexCell {
+  font-family: 'Monaco', 'Consolas', monospace;
+  font-weight: var(--font-bold);
+  color: var(--text-tertiary);
+  background-color: var(--tertiary-bg);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-xs);
+}
+
+/* 模型名称列样式 */
+.nameCell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.modelName {
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  font-size: var(--font-sm);
+}
+
+.modelVersion {
+  font-family: 'Monaco', 'Consolas', monospace;
+  font-size: var(--font-xs);
+  color: var(--text-tertiary);
+  background-color: var(--tertiary-bg);
+  padding: 2px var(--spacing-xs);
+  border-radius: var(--radius-sm);
+  width: fit-content;
+}
+
+/* 框架列样式 */
+.frameworkCell {
+  font-weight: var(--font-medium);
+  color: var(--text-secondary);
+}
+
+/* 大小列样式 */
+.sizeCell {
+  font-family: 'Monaco', 'Consolas', monospace;
+  font-weight: var(--font-medium);
+  color: var(--text-primary);
+}
+
+/* 准确率列样式 */
+.accuracyCell {
+  font-family: 'Monaco', 'Consolas', monospace;
+  font-weight: var(--font-semibold);
+  color: var(--success-color);
+}
+
+/* 时间列样式 */
+.timeCell {
+  font-size: var(--font-xs);
+  color: var(--text-tertiary);
+}
+
+/* 标签列样式 */
+.tagsCell {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: var(--font-xs);
+}
+
+.moreTagsIndicator {
+  font-size: var(--font-xs);
+  color: var(--text-tertiary);
+  background-color: var(--tertiary-bg);
+  padding: 2px var(--spacing-xs);
+  border-radius: var(--radius-sm);
+  border: 1px dashed var(--border-color);
+}
+
+/* 排序指示器 */
+.sortIndicator {
+  display: inline-flex;
+  align-items: center;
+  margin-left: var(--spacing-xs);
+  opacity: 0.5;
+  transition: opacity var(--transition-fast);
+}
+
+.sortIndicator.active {
+  opacity: 1;
+  color: var(--accent-color);
+}
+
+.sortIndicator svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* 行悬停效果增强 */
+.modelTable :global(.tableRow:hover) {
+  background-color: var(--table-row-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.modelTable :global(.tableRow) {
+  transition: all var(--transition-fast);
+}
+
+/* 响应式调整 */
+@media (max-width: 1200px) {
+  .nameCell {
+    min-width: 150px;
+  }
+  
+  .tagsCell {
+    max-width: 150px;
+  }
+}
+
+@media (max-width: 768px) {
+  .modelName {
+    font-size: var(--font-xs);
+  }
+  
+  .modelVersion {
+    font-size: 10px;
+  }
+  
+  .tag {
+    font-size: 10px;
+    padding: 1px var(--spacing-xs);
+  }
+  
+  .indexCell {
+    font-size: 10px;
+    padding: 2px var(--spacing-xs);
+  }
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+  .indexCell,
+  .modelVersion,
+  .moreTagsIndicator {
+    border: 1px solid var(--border-color);
+  }
+}
+
+/* 减少动画模式 */
+@media (prefers-reduced-motion: reduce) {
+  .modelTable :global(.tableRow) {
+    transition: none;
+  }
+  
+  .sortIndicator {
+    transition: none;
+  }
+}

@@ -1,0 +1,186 @@
+/**
+ * ModelStats组件样式
+ */
+
+.statsContainer {
+  background-color: var(--secondary-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.statsTitle {
+  font-size: var(--font-md);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-md);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.statsTitle::before {
+  content: '📈';
+  font-size: var(--font-lg);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--spacing-sm);
+}
+
+.statItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-md);
+  background-color: var(--tertiary-bg);
+  border: 1px solid var(--border-color);
+  transition: all var(--transition-fast);
+}
+
+.statItem:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.statIcon {
+  font-size: var(--font-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background-color: var(--secondary-bg);
+}
+
+.statContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.statValue {
+  font-size: var(--font-lg);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  font-family: 'Monaco', 'Consolas', monospace;
+}
+
+.statLabel {
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+  font-weight: var(--font-medium);
+}
+
+/* 颜色变体 */
+.primary {
+  border-color: var(--accent-color);
+}
+
+.primary .statValue {
+  color: var(--accent-color);
+}
+
+.info {
+  border-color: var(--info-color);
+}
+
+.info .statValue {
+  color: var(--info-color);
+}
+
+.success {
+  border-color: var(--success-color);
+}
+
+.success .statValue {
+  color: var(--success-color);
+}
+
+.warning {
+  border-color: var(--warning-color);
+}
+
+.warning .statValue {
+  color: var(--warning-color);
+}
+
+.danger {
+  border-color: var(--error-color);
+}
+
+.danger .statValue {
+  color: var(--error-color);
+}
+
+.secondary {
+  border-color: var(--text-secondary);
+}
+
+.secondary .statValue {
+  color: var(--text-secondary);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .statsContainer {
+    padding: var(--spacing-md);
+  }
+  
+  .statsGrid {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: var(--spacing-xs);
+  }
+  
+  .statItem {
+    padding: var(--spacing-xs);
+    gap: var(--spacing-xs);
+  }
+  
+  .statIcon {
+    width: 24px;
+    height: 24px;
+    font-size: var(--font-md);
+  }
+  
+  .statValue {
+    font-size: var(--font-md);
+  }
+  
+  .statLabel {
+    font-size: 10px;
+  }
+  
+  .statsTitle {
+    font-size: var(--font-sm);
+    margin-bottom: var(--spacing-sm);
+  }
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+  .statsContainer {
+    border-width: 2px;
+  }
+  
+  .statItem {
+    border-width: 2px;
+  }
+}
+
+/* 减少动画模式 */
+@media (prefers-reduced-motion: reduce) {
+  .statItem {
+    transition: none;
+  }
+  
+  .statItem:hover {
+    transform: none;
+  }
+}

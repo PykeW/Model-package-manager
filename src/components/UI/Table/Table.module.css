@@ -1,0 +1,234 @@
+/**
+ * Table组件样式 - 工业风格
+ */
+
+.tableWrapper {
+  position: relative;
+  overflow: auto;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background-color: var(--secondary-bg);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-sm);
+}
+
+.tableHeader {
+  background-color: var(--table-header-bg);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.tableHeaderCell {
+  padding: var(--spacing-md);
+  text-align: left;
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.tableHeaderCell:last-child {
+  border-right: none;
+}
+
+.sortable {
+  cursor: pointer;
+  position: relative;
+  transition: background-color var(--transition-fast);
+}
+
+.sortable:hover {
+  background-color: var(--tertiary-bg);
+}
+
+.sortIcon {
+  display: inline-flex;
+  align-items: center;
+  margin-left: var(--spacing-xs);
+  opacity: 0.5;
+  transition: opacity var(--transition-fast);
+}
+
+.sortable:hover .sortIcon {
+  opacity: 1;
+}
+
+.sortIcon svg {
+  width: 14px;
+  height: 14px;
+}
+
+.tableBody {
+  background-color: var(--secondary-bg);
+}
+
+.tableRow {
+  transition: background-color var(--transition-fast);
+  cursor: default;
+}
+
+.tableRow:hover {
+  background-color: var(--table-row-hover);
+}
+
+.tableRow[role="button"] {
+  cursor: pointer;
+}
+
+.tableRow:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: -2px;
+}
+
+.tableCell {
+  padding: var(--spacing-md);
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+  vertical-align: middle;
+}
+
+.tableCell:last-child {
+  border-right: none;
+}
+
+.emptyRow {
+  background-color: var(--secondary-bg);
+}
+
+.emptyCell {
+  padding: var(--spacing-xl);
+  text-align: center;
+  color: var(--text-tertiary);
+  font-style: italic;
+}
+
+/* 对齐方式 */
+.align-left {
+  text-align: left;
+}
+
+.align-center {
+  text-align: center;
+}
+
+.align-right {
+  text-align: right;
+}
+
+/* 加载状态 */
+.loadingOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(26, 26, 26, 0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  z-index: 20;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  color: var(--accent-color);
+  animation: spin 1s linear infinite;
+}
+
+.spinner svg {
+  width: 100%;
+  height: 100%;
+}
+
+.spinner circle {
+  animation: dash 1.5s ease-in-out infinite;
+}
+
+.loadingText {
+  color: var(--text-primary);
+  font-size: var(--font-sm);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 150;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -124;
+  }
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .tableHeaderCell,
+  .tableCell {
+    padding: var(--spacing-sm);
+    font-size: var(--font-xs);
+  }
+  
+  .tableWrapper {
+    font-size: var(--font-xs);
+  }
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+  .tableWrapper {
+    border-width: 2px;
+  }
+  
+  .tableHeaderCell,
+  .tableCell {
+    border-width: 2px;
+  }
+}
+
+/* 减少动画模式 */
+@media (prefers-reduced-motion: reduce) {
+  .tableRow {
+    transition: none;
+  }
+  
+  .sortable {
+    transition: none;
+  }
+  
+  .sortIcon {
+    transition: none;
+  }
+  
+  .spinner {
+    animation: none;
+  }
+  
+  .spinner circle {
+    animation: none;
+    stroke-dasharray: none;
+  }
+}

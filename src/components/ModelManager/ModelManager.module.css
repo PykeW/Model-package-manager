@@ -1,0 +1,170 @@
+/**
+ * ModelManager组件样式 - 工业风格主容器
+ */
+
+.modelManager {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: var(--primary-bg);
+  color: var(--text-primary);
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-lg);
+  background-color: var(--secondary-bg);
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.titleContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.title {
+  font-size: var(--font-2xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.title::before {
+  content: '🤖';
+  font-size: var(--font-3xl);
+}
+
+.subtitle {
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.statsSection {
+  flex-shrink: 0;
+  padding: 0 var(--spacing-lg);
+  padding-top: var(--spacing-lg);
+}
+
+.filterSection {
+  flex-shrink: 0;
+  padding: 0 var(--spacing-lg);
+}
+
+.tableSection {
+  flex: 1;
+  padding: 0 var(--spacing-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.table {
+  flex: 1;
+  overflow: hidden;
+}
+
+.footer {
+  flex-shrink: 0;
+  background-color: var(--secondary-bg);
+  border-top: 1px solid var(--border-color);
+  padding: var(--spacing-md) var(--spacing-lg);
+}
+
+.footerContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footerText {
+  font-size: var(--font-xs);
+  color: var(--text-tertiary);
+}
+
+.footerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+/* 响应式调整 */
+@media (max-width: 1024px) {
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-md);
+  }
+  
+  .actions {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .modelManager {
+    height: 100vh;
+  }
+  
+  .header {
+    padding: var(--spacing-md);
+  }
+  
+  .title {
+    font-size: var(--font-xl);
+  }
+  
+  .subtitle {
+    font-size: var(--font-xs);
+  }
+  
+  .statsSection,
+  .filterSection,
+  .tableSection {
+    padding: 0 var(--spacing-md);
+  }
+  
+  .statsSection {
+    padding-top: var(--spacing-md);
+  }
+  
+  .footer {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+  
+  .footerContent {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-sm);
+  }
+  
+  .footerActions {
+    justify-content: center;
+  }
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+  .header {
+    border-bottom-width: 2px;
+  }
+  
+  .footer {
+    border-top-width: 2px;
+  }
+}
