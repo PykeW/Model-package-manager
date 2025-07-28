@@ -25,24 +25,60 @@
 /* 模型名称列样式 */
 .nameCell {
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
+  align-items: center;
+  gap: var(--spacing-sm);
+  justify-content: space-between;
 }
 
 .modelName {
   font-weight: var(--font-semibold);
-  color: var(--text-primary);
+  color: #ffffff;
   font-size: var(--font-sm);
+  flex: 1;
 }
 
-.modelVersion {
-  font-family: 'Monaco', 'Consolas', monospace;
-  font-size: var(--font-xs);
-  color: var(--text-tertiary);
-  background-color: var(--tertiary-bg);
-  padding: 2px var(--spacing-xs);
+.editButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background-color: transparent;
+  border: 1px solid transparent;
   border-radius: var(--radius-sm);
-  width: fit-content;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  opacity: 0;
+}
+
+.nameCell:hover .editButton {
+  opacity: 1;
+}
+
+.editButton:hover {
+  background-color: var(--tertiary-bg);
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+  transform: scale(1.1);
+}
+
+.editButton:active {
+  background-color: var(--secondary-bg);
+  color: var(--text-primary);
+  transform: scale(1);
+}
+
+.editButton:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+  opacity: 1;
+}
+
+.editButton svg {
+  width: 14px;
+  height: 14px;
 }
 
 /* 框架列样式 */
@@ -65,10 +101,143 @@
   color: var(--success-color);
 }
 
-/* 时间列样式 */
-.timeCell {
+/* 版本列样式 */
+.versionCell {
+  display: flex;
+  align-items: center;
+}
+
+.versionSelect {
+  width: 100%;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-family: 'Monaco', 'Consolas', monospace;
   font-size: var(--font-xs);
-  color: var(--text-tertiary);
+  font-weight: var(--font-medium);
+  color: var(--text-primary);
+  background-color: var(--tertiary-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.versionSelect:hover {
+  border-color: var(--border-hover);
+  background-color: var(--secondary-bg);
+}
+
+.versionSelect:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 2px rgba(74, 158, 255, 0.1);
+}
+
+/* 操作列样式 */
+.actionsCell {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  min-width: 160px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 操作按钮容器优化 */
+.actionsCell::before {
+  content: '';
+  flex: 0.5;
+}
+
+.actionsCell::after {
+  content: '';
+  flex: 0.5;
+}
+
+.actionButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.actionButton svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* 详情按钮 */
+.detailButton {
+  color: var(--accent-color);
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.375rem 0.75rem;
+  min-width: 60px; /* 增加最小宽度确保两字横排 */
+  white-space: nowrap; /* 防止文字换行 */
+  letter-spacing: 0.1em; /* 调整字符间距 */
+}
+
+.detailButton:hover {
+  background-color: rgba(74, 158, 255, 0.1);
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+  transform: scale(1.05);
+}
+
+/* 编辑按钮 */
+.editButton {
+  color: var(--warning-color);
+}
+
+.editButton:hover {
+  background-color: rgba(255, 193, 7, 0.1);
+  border-color: var(--warning-color);
+  color: var(--warning-color);
+  transform: scale(1.1);
+}
+
+/* 删除按钮 */
+.deleteButton {
+  color: var(--danger-color);
+}
+
+.deleteButton:hover {
+  background-color: rgba(220, 53, 69, 0.1);
+  border-color: var(--danger-color);
+  color: var(--danger-color);
+  transform: scale(1.1);
+}
+
+/* 上传更新版本按钮 */
+.uploadButton {
+  color: var(--accent-color);
+}
+
+.uploadButton:hover {
+  background-color: rgba(74, 158, 255, 0.1);
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+  transform: scale(1.1);
+}
+
+/* 按钮通用激活状态 */
+.actionButton:active {
+  transform: scale(1);
+}
+
+.actionButton:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }
 
 /* 标签列样式 */
@@ -137,9 +306,19 @@
   .modelName {
     font-size: var(--font-xs);
   }
-  
-  .modelVersion {
-    font-size: 10px;
+
+  .editButton {
+    width: 20px;
+    height: 20px;
+  }
+
+  .editButton svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .nameCell {
+    gap: var(--spacing-xs);
   }
   
   .tag {
@@ -150,6 +329,23 @@
   .indexCell {
     font-size: 10px;
     padding: 2px var(--spacing-xs);
+  }
+
+  /* 移动端操作按钮调整 */
+  .actionsCell {
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs);
+    justify-content: space-around;
+  }
+
+  .actionButton {
+    width: 28px;
+    height: 28px;
+  }
+
+  .actionButton svg {
+    width: 14px;
+    height: 14px;
   }
 }
 

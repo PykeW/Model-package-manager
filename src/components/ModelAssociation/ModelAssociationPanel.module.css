@@ -1,0 +1,455 @@
+/**
+ * ModelAssociationPanel 样式
+ * 工业深色主题设计
+ */
+
+.container {
+  height: 100%;
+  background: var(--color-background-primary);
+  color: var(--color-text-primary);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ========== 头部区域 ========== */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--color-background-primary);
+  border-bottom: 1px solid var(--color-border);
+  padding: 1rem 1.5rem;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.backButton {
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+}
+
+.titleSection {
+  flex: 1;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.subtitle {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin: 0.25rem 0 0 0;
+}
+
+/* ========== 方案信息卡片 ========== */
+.schemeInfo {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.schemeCard {
+  background: var(--color-background-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.schemeHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.schemeName {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.schemeStatus {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.schemeDescription {
+  color: var(--color-text-secondary);
+  margin: 0 0 1rem 0;
+  line-height: 1.5;
+}
+
+.schemeStats {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.statItem {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.statItem strong {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+/* ========== 搜索和筛选区域 ========== */
+.searchSection {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-background-secondary);
+}
+
+.searchControls {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+
+.searchInput {
+  flex: 1;
+  max-width: 400px;
+}
+
+.typeFilter {
+  padding: 0.625rem 1rem;
+  background: var(--color-background-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+  min-width: 140px;
+}
+
+.typeFilter:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-color: var(--color-primary);
+}
+
+/* 批量操作控制 */
+.bulkControls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.selectAllLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.selectAllCheckbox {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--color-primary);
+}
+
+.bulkActions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.priorityInput {
+  width: 4rem;
+  padding: 0.375rem 0.5rem;
+  background: var(--color-background-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-sm);
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.priorityInput:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-color: var(--color-primary);
+}
+
+/* ========== 模型列表区域 ========== */
+.modelList {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+.listHeader {
+  margin-bottom: 1rem;
+}
+
+.listTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+/* 模型网格布局 */
+.modelGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 1rem;
+}
+
+/* 模型卡片 */
+.modelCard {
+  background: var(--color-background-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  padding: 1rem;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+}
+
+.modelCard:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
+}
+
+.modelCard.selected {
+  border-color: var(--color-primary);
+  background: rgba(74, 158, 255, 0.05);
+}
+
+.modelCard.associated {
+  border-color: var(--color-success);
+  background: rgba(82, 196, 26, 0.05);
+}
+
+.modelCard.associated.selected {
+  border-color: var(--color-primary);
+  background: rgba(74, 158, 255, 0.1);
+}
+
+/* 卡片头部 */
+.modelCardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.modelSelectLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  flex: 1;
+  min-width: 0;
+}
+
+.modelCheckbox {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.modelName {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.modelStatus {
+  display: flex;
+  gap: 0.375rem;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+/* 模型信息 */
+.modelInfo {
+  margin-bottom: 1rem;
+}
+
+.modelMeta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.modelMeta span {
+  background: var(--color-background-primary);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--color-border);
+}
+
+.modelTags {
+  display: flex;
+  gap: 0.375rem;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.modelTag {
+  font-size: 0.75rem;
+}
+
+.moreTags {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  background: var(--color-background-primary);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--color-border);
+}
+
+/* 关联信息 */
+.associationInfo {
+  background: var(--color-background-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  padding: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.priorityInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.priorityInfo input {
+  width: 3rem;
+  padding: 0.25rem 0.375rem;
+  background: var(--color-background-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-sm);
+  color: var(--color-text-primary);
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.associationNotes {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* 模型操作 */
+.modelActions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* 空状态 */
+.emptyState {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--color-text-secondary);
+}
+
+.emptyState p {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+}
+
+/* ========== 响应式设计 ========== */
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem;
+  }
+  
+  .headerLeft {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .schemeInfo {
+    padding: 1rem;
+  }
+  
+  .schemeHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .searchSection {
+    padding: 1rem;
+  }
+  
+  .searchControls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .bulkControls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  
+  .bulkActions {
+    justify-content: space-between;
+  }
+  
+  .modelList {
+    padding: 1rem;
+  }
+  
+  .modelGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .modelCardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .modelMeta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.25rem;
+  }
+  
+  .modelCard {
+    padding: 0.75rem;
+  }
+  
+  .schemeCard {
+    padding: 1rem;
+  }
+} 

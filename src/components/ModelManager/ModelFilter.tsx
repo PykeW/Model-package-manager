@@ -94,7 +94,7 @@ export const ModelFilter: React.FC<ModelFilterProps> = ({
           size="small"
           className={styles.resetButton}
         >
-          重置筛选
+          重置
         </Button>
       </div>
     </div>

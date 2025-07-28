@@ -6,8 +6,8 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: var(--primary-bg);
-  color: var(--text-primary);
+  background-color: #1e1e1e;
+  color: #e0e0e0;
   overflow: hidden;
 }
 
@@ -15,9 +15,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--spacing-lg);
-  background-color: var(--secondary-bg);
-  border-bottom: 1px solid var(--border-color);
+  padding: var(--spacing-md) var(--spacing-sm);
+  background-color: #2a2a2a;
+  border-bottom: 1px solid #4a4a4a;
   flex-shrink: 0;
 }
 
@@ -30,7 +30,7 @@
 .title {
   font-size: var(--font-2xl);
   font-weight: var(--font-bold);
-  color: var(--text-primary);
+  color: #ffffff;
   margin: 0;
   display: flex;
   align-items: center;
@@ -44,7 +44,7 @@
 
 .subtitle {
   font-size: var(--font-sm);
-  color: var(--text-secondary);
+  color: #b0b0b0;
   margin: 0;
 }
 
@@ -54,20 +54,16 @@
   gap: var(--spacing-sm);
 }
 
-.statsSection {
-  flex-shrink: 0;
-  padding: 0 var(--spacing-lg);
-  padding-top: var(--spacing-lg);
-}
+
 
 .filterSection {
   flex-shrink: 0;
-  padding: 0 var(--spacing-lg);
+  padding: 0 var(--spacing-sm);
 }
 
 .tableSection {
   flex: 1;
-  padding: 0 var(--spacing-lg);
+  padding: 0 var(--spacing-sm);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -80,9 +76,9 @@
 
 .footer {
   flex-shrink: 0;
-  background-color: var(--secondary-bg);
-  border-top: 1px solid var(--border-color);
-  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: #2a2a2a;
+  border-top: 1px solid #4a4a4a;
+  padding: var(--spacing-md) var(--spacing-sm);
 }
 
 .footerContent {
@@ -133,14 +129,9 @@
     font-size: var(--font-xs);
   }
   
-  .statsSection,
   .filterSection,
   .tableSection {
     padding: 0 var(--spacing-md);
-  }
-  
-  .statsSection {
-    padding-top: var(--spacing-md);
   }
   
   .footer {
@@ -167,4 +158,49 @@
   .footer {
     border-top-width: 2px;
   }
+}
+
+/* ========== 新增：模型关联功能样式 ========== */
+
+/* 方案信息显示 */
+.schemeInfo {
+  color: var(--color-text-secondary);
+}
+
+.schemeInfo strong {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+/* 模型关联配置按钮 */
+.associationButton {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-success));
+  border: none;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+}
+
+.associationButton:hover {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-success));
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+  filter: brightness(1.1);
+}
+
+/* 错误消息样式 */
+.errorMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  text-align: center;
+  color: var(--color-text-secondary);
+  padding: 2rem;
+}
+
+.errorMessage p {
+  font-size: 1.125rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-danger);
 }

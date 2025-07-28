@@ -4,8 +4,9 @@
 
 import React from 'react';
 import type { Model, ModelSort, TableColumn } from '../../types';
-import { Table, Tag } from '../UI';
-import { formatFileSize, formatRelativeTime } from '../../utils';
+import { Table, Tag, Tooltip } from '../UI';
+import { formatFileSize } from '../../utils';
+import { ModelPreview } from './ModelPreview';
 import styles from './ModelTable.module.css';
 
 export interface ModelTableProps {
@@ -46,7 +47,20 @@ export const ModelTable: React.FC<ModelTableProps> = ({
       render: (value, model) => (
         <div className={styles.nameCell}>
           <span className={styles.modelName}>{value}</span>
-          <span className={styles.modelVersion}>{model.version}</span>
+          <button
+            className={styles.editButton}
+            onClick={(e) => {
+              e.stopPropagation();
+              console.log('Edit model:', model.name);
+              // 这里可以添加编辑功能
+            }}
+            title="编辑模型名称"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+            </svg>
+          </button>
         </div>
       )
     },
@@ -76,14 +90,21 @@ export const ModelTable: React.FC<ModelTableProps> = ({
       )
     },
     {
-      key: 'timestamp',
-      label: '更新时间',
+      key: 'version',
+      label: '版本',
       sortable: true,
-      width: '120px',
+      width: '150px',
       render: (value) => (
-        <span className={styles.timeCell}>
-          {formatRelativeTime(value)}
-        </span>
+        <div className={styles.versionCell}>
+          <select
+            className={styles.versionSelect}
+            value={value}
+            onChange={(e) => console.log('Version changed:', e.target.value)}
+          >
+            <option value={value}>{value}</option>
+            {/* 这里可以添加其他版本选项 */}
+          </select>
+        </div>
       )
     },
     {
@@ -105,6 +126,64 @@ export const ModelTable: React.FC<ModelTableProps> = ({
               +{value.length - 2}
             </span>
           )}
+        </div>
+      )
+    },
+    {
+      key: 'actions',
+      label: '操作',
+      width: '180px',
+      align: 'center',
+      render: (_, model) => (
+        <div className={styles.actionsCell}>
+          <Tooltip
+            content={<ModelPreview model={model} />}
+            position="top"
+            delay={300}
+          >
+            <button
+              className={`${styles.actionButton} ${styles.detailButton}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                console.log('查看详情:', model.name);
+              }}
+              title="查看详情"
+            >
+              详情
+            </button>
+          </Tooltip>
+
+          <button
+            className={`${styles.actionButton} ${styles.editButton}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              console.log('编辑模型:', model.name);
+            }}
+            title="编辑模型"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+            </svg>
+          </button>
+
+          <button
+            className={`${styles.actionButton} ${styles.deleteButton}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (window.confirm(`确定要删除模型 "${model.name}" 吗？此操作不可撤销。`)) {
+                console.log('删除模型:', model.name);
+              }
+            }}
+            title="删除模型"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <polyline points="3,6 5,6 21,6" />
+              <path d="M19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2" />
+              <line x1="10" y1="11" x2="10" y2="17" />
+              <line x1="14" y1="11" x2="14" y2="17" />
+            </svg>
+          </button>
         </div>
       )
     }

@@ -1,0 +1,202 @@
+# 🤖 AI模型管理器 - Cursor Rules
+
+这是一个工业级AOI（自动光学检测）软件的AI模型管理原型系统。
+
+## 项目概述
+
+- **项目类型**: 原型设计项目，专注于UI/UX展示，无需完整业务逻辑实现
+- **应用场景**: 工业AOI软件中的模型管理弹窗系统
+- **技术栈**: React 18 + TypeScript + Vite + CSS Modules
+- **设计风格**: 工业级深色主题界面
+
+## 核心功能模块
+
+### 主弹窗页面
+- 模型列表展示（表格化界面）
+- 模型搜索、筛选、排序功能
+- 模型标签管理和分类
+- 模型版本控制展示
+
+### 子页面 - 模型关联选择
+- 从现有模型中选择部分模型
+- 与当前运行方案进行关联
+- 批量选择和管理功能
+- 关联状态可视化展示
+
+## 开发指南
+
+### 代码结构原则
+```
+src/
+├── components/
+│   ├── UI/                    # 基础UI组件库
+│   ├── ModelTable/            # 模型表格组件
+│   ├── ModelManager/          # 主弹窗管理器
+│   ├── ModelForm/             # 模型表单组件
+│   ├── ModelManagerModal/     # 弹窗集成组件
+│   └── ModelAssociation/      # 🆕 模型关联子页面组件
+├── hooks/                     # 自定义React Hooks
+├── types/                     # TypeScript类型定义
+├── utils/                     # 工具函数
+└── data/                      # Mock数据
+```
+
+### 设计系统规范
+
+#### 颜色方案（工业深色主题）
+- 主背景色: `#1a1a1a` / `#2d2d2d`
+- 卡片背景: `#333333` / `#404040`
+- 主要文字: `#ffffff` / `#e0e0e0`
+- 次要文字: `#b0b0b0` / `#999999`
+- 主题色: `#4a9eff` (科技蓝)
+- 成功色: `#52c41a` (工业绿)
+- 警告色: `#faad14` (警示橙)
+- 错误色: `#ff4d4f` (警示红)
+
+#### 组件命名规范
+- 使用PascalCase: `ModelTable`, `ModelAssociationPanel`
+- Hook使用camelCase前缀"use": `useModelSelection`, `useSchemeAssociation`
+- 类型定义使用PascalCase后缀"Type": `ModelType`, `SchemeAssociationType`
+
+### TypeScript类型定义
+
+#### 核心类型
+```typescript
+interface ModelType {
+  id: string;
+  name: string;
+  version: string;
+  tags: string[];
+  status: 'active' | 'inactive' | 'archived';
+  createdAt: string;
+  updatedAt: string;
+  description?: string;
+  accuracy?: number;
+  size?: string;
+}
+
+interface SchemeType {
+  id: string;
+  name: string;
+  description?: string;
+  associatedModels: string[]; // Model IDs
+  isActive: boolean;
+  createdAt: string;
+}
+
+interface ModelAssociationType {
+  modelId: string;
+  schemeId: string;
+  priority: number;
+  associatedAt: string;
+}
+```
+
+### 组件开发规范
+
+#### 1. 组件结构
+```typescript
+// 标准组件模板
+interface ComponentProps {
+  // 明确的prop类型定义
+}
+
+export const ComponentName: React.FC<ComponentProps> = ({ 
+  // 解构props
+}) => {
+  // Hook调用
+  // 状态管理
+  // 事件处理函数
+  
+  return (
+    <div className={styles.container}>
+      {/* JSX内容 */}
+    </div>
+  );
+};
+```
+
+#### 2. 样式规范
+- 使用CSS Modules: `Component.module.css`
+- 利用CSS变量: `var(--primary-color)`
+- 响应式设计: 移动端优先，断点`768px`, `1024px`, `1440px`
+- 动画过渡: `transition: all 0.2s ease-in-out`
+
+#### 3. 状态管理
+- 使用useState进行组件本地状态
+- 使用useReducer处理复杂状态逻辑
+- 自定义Hook封装业务逻辑
+- 避免过度prop drilling
+
+### 原型开发重点
+
+#### 重要提醒：这是原型项目
+- **专注UI/UX展示效果**
+- **使用Mock数据模拟真实场景**
+- **实现核心交互流程，无需完整后端逻辑**
+- **优先视觉效果和用户体验**
+
+#### Mock数据策略
+- 创建真实感的示例数据
+- 模拟各种状态和场景
+- 包含边界情况的数据（空状态、错误状态等）
+- 数据结构与真实API保持一致
+
+#### 交互原型重点
+1. **弹窗层级管理** - 主弹窗与子页面的层级关系
+2. **页面导航** - 主页面与模型关联子页面的切换
+3. **选择交互** - 多选、全选、取消选择的视觉反馈
+4. **状态展示** - 关联状态、加载状态、成功失败状态
+5. **响应式适配** - 不同屏幕尺寸的布局调整
+
+### 新增功能：模型关联子页面
+
+#### 功能需求
+- 展示当前运行方案信息
+- 显示可关联的模型列表
+- 支持多选模型进行关联
+- 显示已关联模型状态
+- 提供关联优先级设置
+- 支持批量操作（关联/取消关联）
+
+#### 组件设计
+```typescript
+// ModelAssociationPanel 组件
+interface ModelAssociationPanelProps {
+  currentScheme: SchemeType;
+  availableModels: ModelType[];
+  associatedModels: ModelAssociationType[];
+  onAssociate: (modelIds: string[]) => void;
+  onDisassociate: (modelIds: string[]) => void;
+  onBack: () => void;
+}
+```
+
+### 测试策略
+- 组件渲染测试
+- 用户交互测试
+- Mock数据测试
+- 响应式布局测试
+- 无障碍性测试
+
+### 性能优化
+- 使用React.memo防止不必要重渲染
+- 虚拟滚动处理大数据量列表
+- 图片懒加载
+- 代码分割和动态导入
+
+## 开发建议
+
+1. **从UI组件开始** - 先构建基础UI组件库
+2. **逐步集成功能** - 从静态展示到交互功能
+3. **重视用户体验** - 加载状态、过渡动画、错误提示
+4. **保持代码整洁** - 遵循项目结构和命名规范
+5. **及时测试验证** - 确保每个功能模块的稳定性
+
+## 注意事项
+
+- 这是**原型项目**，重点在于展示设计效果和交互流程
+- 数据持久化使用localStorage或sessionStorage模拟
+- API调用使用setTimeout模拟异步请求
+- 专注于工业软件的专业性和可用性
+- 确保深色主题下的良好视觉效果和对比度 

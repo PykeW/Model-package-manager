@@ -4,7 +4,7 @@
 
 import React, { useState } from 'react';
 import type { Model, ModelFormData } from '../../types';
-import { Modal } from '../UI';
+import { Modal, FileUploadModal } from '../UI';
 import { ModelManager } from '../ModelManager';
 import { ModelForm, ModelDetail } from '../ModelForm';
 import { mockModels } from '../../data/mockModels';
@@ -31,6 +31,7 @@ export const ModelManagerModal: React.FC<ModelManagerModalProps> = ({
   const [selectedModel, setSelectedModel] = useState<Model | null>(null);
   const [editingModel, setEditingModel] = useState<Model | null>(null);
   const [loading, setLoading] = useState(false);
+  const [uploadModalOpen, setUploadModalOpen] = useState(false);
 
   const handleClose = () => {
     setCurrentView('manager');
@@ -44,10 +45,7 @@ export const ModelManagerModal: React.FC<ModelManagerModalProps> = ({
   //   setCurrentView('detail');
   // };
 
-  const handleAddModel = () => {
-    setEditingModel(null);
-    setCurrentView('form');
-  };
+
 
   const handleEditModel = (model?: Model) => {
     setEditingModel(model || selectedModel);
@@ -127,6 +125,34 @@ export const ModelManagerModal: React.FC<ModelManagerModalProps> = ({
     setCurrentView('manager');
   };
 
+  const handleFileUpload = async (files: FileList): Promise<void> => {
+    // 模拟文件上传处理
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    // 这里可以处理解析压缩包，创建新模型等逻辑
+    const uploadedFile = files[0];
+    console.log('上传文件:', uploadedFile.name);
+    
+    // 模拟从上传文件创建新模型
+    const newModel: Model = {
+      id: generateId(),
+      name: uploadedFile.name.replace(/\.(zip|rar|7z|tar\.gz)$/i, ''),
+      type: 'detection', // 默认类型
+      timestamp: new Date(),
+      version: generateVersion(),
+      tags: ['导入模型'],
+      status: 'active',
+      metadata: {
+        size: uploadedFile.size,
+        accuracy: 0.85,
+        framework: 'Unknown',
+        description: `从 ${uploadedFile.name} 导入的模型`
+      }
+    };
+    
+    setModels(prev => [newModel, ...prev]);
+  };
+
   const getModalTitle = () => {
     switch (currentView) {
       case 'form':
@@ -179,33 +205,37 @@ export const ModelManagerModal: React.FC<ModelManagerModalProps> = ({
           <div className={styles.managerContent}>
             <ModelManager
               models={models}
+              showHeader={true}
               className={styles.manager}
+              onAddModel={() => setUploadModalOpen(true)}
             />
-            <div className={styles.managerActions}>
-              <button
-                onClick={handleAddModel}
-                className={styles.addButton}
-              >
-                <span className={styles.addIcon}>+</span>
-                添加模型
-              </button>
-            </div>
           </div>
         );
     }
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={handleClose}
-      title={getModalTitle()}
-      size={getModalSize()}
-      className={[styles.modelManagerModal, className].filter(Boolean).join(' ')}
-    >
-      <div className={styles.modalContent}>
-        {renderContent()}
-      </div>
-    </Modal>
+    <>
+      <Modal
+        isOpen={isOpen}
+        onClose={handleClose}
+        title={getModalTitle()}
+        size={getModalSize()}
+        className={[styles.modelManagerModal, className].filter(Boolean).join(' ')}
+      >
+        <div className={styles.modalContent}>
+          {renderContent()}
+        </div>
+      </Modal>
+      
+      <FileUploadModal
+        isOpen={uploadModalOpen}
+        onClose={() => setUploadModalOpen(false)}
+        onUpload={handleFileUpload}
+        title="上传模型压缩包"
+        acceptedTypes=".zip,.rar,.7z,.tar.gz"
+        maxSize={200}
+      />
+    </>
   );
 };

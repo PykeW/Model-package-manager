@@ -3,17 +3,16 @@
  */
 
 import type { Model } from '../types';
-import { generateId } from '../utils';
 
 // 创建模拟数据
 export const mockModels: Model[] = [
   {
-    id: generateId(),
+    id: 'model-1',
     name: 'YOLOv8-Segmentation',
     type: 'segmentation',
     version: 'v2024.01.15.1430',
     timestamp: new Date('2024-12-15T09:30:00'),
-    tags: ['实时检测', '高精度', '轻量级'],
+    tags: ['上1', '整体大块', '核心区域'],
     status: 'active',
     metadata: {
       size: 52428800, // 50MB
@@ -29,12 +28,12 @@ export const mockModels: Model[] = [
     }
   },
   {
-    id: generateId(),
+    id: 'model-2',
     name: 'DeepLab-v3-Plus',
     type: 'segmentation',
     version: 'v2024.01.10.0900',
     timestamp: new Date('2024-12-10T16:45:00'),
-    tags: ['语义分割', '高精度', '医疗影像'],
+    tags: ['上2', '下1', '边缘区域'],
     status: 'active',
     metadata: {
       size: 104857600, // 100MB
@@ -50,12 +49,12 @@ export const mockModels: Model[] = [
     }
   },
   {
-    id: generateId(),
+    id: 'model-3',
     name: 'RCNN-Detection-v2',
     type: 'detection',
     version: 'v2023.12.20.1600',
     timestamp: new Date('2024-12-08T11:20:00'),
-    tags: ['目标检测', '工业检测', '高召回率'],
+    tags: ['上3', '下2', '关键节点'],
     status: 'active',
     metadata: {
       size: 78643200, // 75MB
@@ -71,12 +70,12 @@ export const mockModels: Model[] = [
     }
   },
   {
-    id: generateId(),
+    id: 'model-4',
     name: 'MobileNet-SSD',
     type: 'detection',
     version: 'v2023.11.30.1200',
     timestamp: new Date('2024-12-05T14:15:00'),
-    tags: ['移动端', '轻量级', '实时检测'],
+    tags: ['上4', '下3', '辅助区域'],
     status: 'archived',
     metadata: {
       size: 26214400, // 25MB
@@ -92,12 +91,12 @@ export const mockModels: Model[] = [
     }
   },
   {
-    id: generateId(),
+    id: 'model-5',
     name: 'U-Net-Medical',
     type: 'segmentation',
     version: 'v2023.10.15.0800',
     timestamp: new Date('2024-12-01T10:30:00'),
-    tags: ['医疗影像', '生物医学', '精准分割'],
+    tags: ['下4', '整体大块', '主要区域'],
     status: 'deprecated',
     metadata: {
       size: 67108864, // 64MB
@@ -113,12 +112,12 @@ export const mockModels: Model[] = [
     }
   },
   {
-    id: generateId(),
+    id: 'model-6',
     name: 'EfficientDet-D4',
     type: 'detection',
     version: 'v2024.01.08.1000',
     timestamp: new Date('2024-11-28T13:45:00'),
-    tags: ['高效检测', '多尺度', '平衡性能'],
+    tags: ['上1', '上2', '连接区域'],
     status: 'active',
     metadata: {
       size: 83886080, // 80MB
@@ -134,12 +133,12 @@ export const mockModels: Model[] = [
     }
   },
   {
-    id: generateId(),
+    id: 'model-7',
     name: 'Mask-RCNN-Instance',
     type: 'segmentation',
     version: 'v2023.12.01.1400',
     timestamp: new Date('2024-11-25T08:20:00'),
-    tags: ['实例分割', '多目标', '高精度'],
+    tags: ['下1', '下2', '过渡区域'],
     status: 'active',
     metadata: {
       size: 157286400, // 150MB
@@ -155,12 +154,12 @@ export const mockModels: Model[] = [
     }
   },
   {
-    id: generateId(),
+    id: 'model-8',
     name: 'YOLO-NAS-Detection',
     type: 'detection',
     version: 'v2024.01.20.0930',
     timestamp: new Date('2024-11-20T15:10:00'),
-    tags: ['神经架构搜索', '最新技术', '高性能'],
+    tags: ['上3', '上4', '特殊区域'],
     status: 'active',
     metadata: {
       size: 94371840, // 90MB

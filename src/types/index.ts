@@ -3,6 +3,7 @@
  */
 
 export * from './model';
+import type { Model } from './model';
 
 // 通用UI组件类型
 export interface ButtonProps {
@@ -60,16 +61,16 @@ export interface TagProps {
 }
 
 // 表格相关类型
-export interface TableColumn<T = any> {
+export interface TableColumn<T = Record<string, unknown>> {
   key: string;
   label: string;
   sortable?: boolean;
   width?: string;
   align?: 'left' | 'center' | 'right';
-  render?: (value: any, row: T, index: number) => React.ReactNode;
+  render?: (value: unknown, row: T, index: number) => React.ReactNode;
 }
 
-export interface TableProps<T = any> {
+export interface TableProps<T = Record<string, unknown>> {
   data: T[];
   columns: TableColumn<T>[];
   loading?: boolean;
@@ -98,8 +99,66 @@ export interface SearchProps {
 }
 
 export interface FilterProps {
-  filters: Record<string, any>;
-  onChange: (filters: Record<string, any>) => void;
+  filters: Record<string, unknown>;
+  onChange: (filters: Record<string, unknown>) => void;
   onReset?: () => void;
   className?: string;
+}
+
+// ================== 新增：方案和模型关联类型定义 ==================
+
+/**
+ * 运行方案接口定义
+ * 表示一个AOI检测运行方案，可以关联多个AI模型
+ */
+export interface SchemeType {
+  id: string;
+  name: string;
+  description?: string;
+  associatedModels: string[]; // 关联的模型ID列表
+  isActive: boolean; // 是否为当前活跃方案
+  createdAt: string;
+  updatedAt?: string;
+  category?: string; // 方案类别（如：电子元件检测、医疗影像分析等）
+  priority?: number; // 方案优先级
+}
+
+/**
+ * 模型关联配置接口
+ * 表示模型与方案的关联关系和配置
+ */
+export interface ModelAssociationType {
+  modelId: string;
+  schemeId: string;
+  priority: number; // 关联优先级（1-10，数字越大优先级越高）
+  associatedAt: string; // 关联时间
+  isEnabled: boolean; // 是否启用该关联
+  config?: {
+    weight?: number; // 模型权重
+    threshold?: number; // 阈值设置
+    notes?: string; // 备注信息
+  };
+}
+
+/**
+ * 模型关联选择面板的Props接口
+ */
+export interface ModelAssociationPanelProps {
+  currentScheme: SchemeType;
+  availableModels: Model[];
+  associatedModels: ModelAssociationType[];
+  onAssociate: (modelIds: string[], priority?: number) => void;
+  onDisassociate: (modelIds: string[]) => void;
+  onUpdatePriority: (modelId: string, priority: number) => void;
+  onBack: () => void;
+  loading?: boolean;
+}
+
+/**
+ * 模型选择状态接口
+ */
+export interface ModelSelectionState {
+  selectedModels: Set<string>;
+  selectAll: boolean;
+  bulkPriority: number;
 }

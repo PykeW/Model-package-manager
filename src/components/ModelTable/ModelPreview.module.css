@@ -1,0 +1,145 @@
+/* 模型预览容器 */
+.modelPreview {
+  width: 280px;
+  color: var(--text-primary);
+}
+
+/* 预览图片区域 */
+.previewImage {
+  margin-bottom: var(--spacing-md);
+}
+
+.placeholder {
+  width: 200px;
+  height: 150px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  margin: 0 auto;
+}
+
+.placeholderIcon {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* 基本信息 */
+.basicInfo {
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.modelName {
+  font-size: var(--font-md);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-sm) 0;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-xs);
+}
+
+.label {
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+}
+
+.value {
+  font-size: var(--font-xs);
+  color: var(--text-primary);
+  font-weight: var(--font-medium);
+}
+
+/* 章节标题 */
+.sectionTitle {
+  font-size: var(--font-sm);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-sm) 0;
+}
+
+/* 推荐规格 */
+.specifications {
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.specItem {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-xs);
+}
+
+.specLabel {
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+}
+
+.specValue {
+  font-size: var(--font-xs);
+  color: var(--accent-color);
+  font-weight: var(--font-medium);
+  font-family: 'Monaco', 'Consolas', monospace;
+}
+
+/* 标签统计 */
+.tagStats {
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xs);
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.statTag {
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+}
+
+.statCount {
+  font-size: var(--font-xs);
+  color: var(--warning-color);
+  font-weight: var(--font-medium);
+}
+
+
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .modelPreview {
+    width: 240px;
+  }
+  
+  .placeholder {
+    width: 160px;
+    height: 120px;
+  }
+  
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .modelName {
+    font-size: var(--font-sm);
+  }
+  
+  .sectionTitle {
+    font-size: var(--font-xs);
+  }
+}

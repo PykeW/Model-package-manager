@@ -1,0 +1,96 @@
+/* 工具提示容器 */
+.tooltipContainer {
+  position: relative;
+  display: inline-block;
+}
+
+/* 工具提示主体 */
+.tooltip {
+  position: fixed;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.8);
+  transition: all var(--transition-normal);
+  pointer-events: none;
+}
+
+.tooltip.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
+
+/* 工具提示内容 */
+.tooltipContent {
+  background-color: var(--primary-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  box-shadow: var(--shadow-lg);
+  max-width: 300px;
+  min-width: 200px;
+}
+
+/* 箭头 */
+.tooltipArrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+}
+
+/* 位置样式 - 简化版，位置由JavaScript控制 */
+.tooltip.visible {
+  transform: scale(1);
+}
+
+/* 箭头位置 */
+.tooltip.top .tooltipArrow {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-top-color: var(--border-color);
+}
+
+.tooltip.bottom .tooltipArrow {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-bottom-color: var(--border-color);
+}
+
+.tooltip.left .tooltipArrow {
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left-color: var(--border-color);
+}
+
+.tooltip.right .tooltipArrow {
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-right-color: var(--border-color);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .tooltipContent {
+    max-width: 250px;
+    min-width: 180px;
+    padding: var(--spacing-sm);
+  }
+  
+  .tooltip.top,
+  .tooltip.bottom {
+    left: 0;
+    right: 0;
+    margin: 0 var(--spacing-sm);
+  }
+  
+  .tooltip.top.visible,
+  .tooltip.bottom.visible {
+    transform: scale(1);
+  }
+}
