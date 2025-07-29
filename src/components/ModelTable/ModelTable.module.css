@@ -108,7 +108,9 @@
 }
 
 .versionSelect {
-  width: 100%;
+  min-width: 80px;
+  max-width: 120px;
+  width: auto;
   padding: var(--spacing-xs) var(--spacing-sm);
   font-family: 'Monaco', 'Consolas', monospace;
   font-size: var(--font-xs);
@@ -275,6 +277,8 @@
   align-items: center;
   gap: var(--spacing-xs);
   flex-wrap: wrap;
+  max-width: 100%;
+  min-height: 32px; /* 确保一致的行高 */
 }
 
 .tag {
@@ -288,6 +292,37 @@
   padding: 2px var(--spacing-xs);
   border-radius: var(--radius-sm);
   border: 1px dashed var(--border-color);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.moreTagsIndicator:hover {
+  color: var(--accent-color);
+  background-color: rgba(74, 158, 255, 0.1);
+  border-color: var(--accent-color);
+}
+
+/* Tooltip样式 */
+.allTagsTooltip {
+  max-width: 300px;
+  padding: var(--spacing-sm);
+}
+
+.tooltipTitle {
+  font-size: var(--font-xs);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.tooltipTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+}
+
+.tooltipTag {
+  font-size: var(--font-xs);
 }
 
 /* 排序指示器 */

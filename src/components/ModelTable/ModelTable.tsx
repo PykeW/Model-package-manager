@@ -45,8 +45,7 @@ export const ModelTable: React.FC<ModelTableProps> = ({
     {
       key: 'index',
       label: '序号',
-      width: '6%',
-      align: 'center',
+      width: '5%',
       render: (_, __, index) => (
         <span className={styles.indexCell}>
           {String(index + 1).padStart(2, '0')}
@@ -57,7 +56,7 @@ export const ModelTable: React.FC<ModelTableProps> = ({
       key: 'name',
       label: '模型名称',
       sortable: true,
-      width: '24%',
+      width: '18%',
       render: (value: unknown, model: Model) => (
         <div className={styles.nameCell}>
           <span className={styles.modelName}>{String(value)}</span>
@@ -82,7 +81,7 @@ export const ModelTable: React.FC<ModelTableProps> = ({
       key: 'type',
       label: '类型',
       sortable: true,
-      width: '12%',
+      width: '11%',
       render: (value: unknown) => (
         <Tag
           label={String(value) === 'segmentation' ? '分割模型' : '检测模型'}
@@ -95,8 +94,7 @@ export const ModelTable: React.FC<ModelTableProps> = ({
       key: 'size',
       label: '大小',
       sortable: true,
-      width: '10%',
-      align: 'right',
+      width: '9%',
       render: (_, model: Model) => (
         <span className={styles.sizeCell}>
           {formatFileSize(model.metadata.size)}
@@ -107,7 +105,7 @@ export const ModelTable: React.FC<ModelTableProps> = ({
       key: 'version',
       label: '版本',
       sortable: true,
-      width: '15%',
+      width: '13%',
       render: (value: unknown) => {
         const versionValue = String(value);
         return (
@@ -127,12 +125,18 @@ export const ModelTable: React.FC<ModelTableProps> = ({
     {
       key: 'tags',
       label: '标签',
-      width: '20%',
+      width: '22%',
       render: (value: unknown) => {
         const tags = Array.isArray(value) ? value : [];
+        
+        // 动态计算显示标签数量，优先显示更多标签
+        const maxVisibleTags = Math.min(tags.length, 3);
+        const visibleTags = tags.slice(0, maxVisibleTags);
+        const remainingCount = tags.length - maxVisibleTags;
+        
         return (
           <div className={styles.tagsCell}>
-            {tags.slice(0, 2).map((tag, index) => (
+            {visibleTags.map((tag, index) => (
               <Tag
                 key={index}
                 label={String(tag)}
@@ -140,10 +144,32 @@ export const ModelTable: React.FC<ModelTableProps> = ({
                 className={styles.tag}
               />
             ))}
-            {tags.length > 2 && (
-              <span className={styles.moreTagsIndicator}>
-                +{tags.length - 2}
-              </span>
+            {remainingCount > 0 && (
+              <Tooltip
+                content={
+                  <div className={styles.allTagsTooltip}>
+                    <div className={styles.tooltipTitle}>
+                      所有标签 ({tags.length}个):
+                    </div>
+                    <div className={styles.tooltipTags}>
+                      {tags.map((tag, index) => (
+                        <Tag
+                          key={index}
+                          label={String(tag)}
+                          color="secondary"
+                          className={styles.tooltipTag}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                }
+                position="top"
+                delay={300}
+              >
+                <span className={styles.moreTagsIndicator}>
+                  +{remainingCount}
+                </span>
+              </Tooltip>
             )}
           </div>
         );
@@ -152,8 +178,7 @@ export const ModelTable: React.FC<ModelTableProps> = ({
     {
       key: 'actions',
       label: '操作',
-      width: '18%',
-      align: 'center',
+      width: '22%',
       render: (_, model) => (
         <div className={styles.actionsCell}>
           {/* 关联/取消关联按钮 */}
