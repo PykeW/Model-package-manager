@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import type { Model, ModelSort, TableColumn } from '../../types';
+import type { Model, ModelSort, TableColumn, ModelAssociationType } from '../../types';
 import { Table, Tag, Tooltip } from '../UI';
 import { formatFileSize } from '../../utils';
 import { ModelPreview } from './ModelPreview';
@@ -16,6 +16,11 @@ export interface ModelTableProps {
   onSort?: (sort: ModelSort | null) => void;
   currentSort?: ModelSort | null;
   className?: string;
+  // 关联功能相关props
+  showAssociationActions?: boolean;
+  associations?: ModelAssociationType[];
+  onAssociate?: (modelId: string) => void;
+  onDisassociate?: (modelId: string) => void;
 }
 
 export const ModelTable: React.FC<ModelTableProps> = ({
@@ -24,8 +29,17 @@ export const ModelTable: React.FC<ModelTableProps> = ({
   onRowClick,
   onSort,
   currentSort,
-  className = ''
+  className = '',
+  showAssociationActions = false,
+  associations = [],
+  onAssociate,
+  onDisassociate
 }) => {
+  
+  // 检查模型是否已关联
+  const isModelAssociated = (modelId: string): boolean => {
+    return associations.some(assoc => assoc.modelId === modelId && assoc.isEnabled);
+  };
   // 定义表格列
   const columns: TableColumn<Model>[] = [
     {
@@ -44,7 +58,7 @@ export const ModelTable: React.FC<ModelTableProps> = ({
       label: '模型名称',
       sortable: true,
       width: '200px',
-      render: (value, model) => (
+      render: (value: string, model: Model) => (
         <div className={styles.nameCell}>
           <span className={styles.modelName}>{value}</span>
           <button
@@ -136,6 +150,35 @@ export const ModelTable: React.FC<ModelTableProps> = ({
       align: 'center',
       render: (_, model) => (
         <div className={styles.actionsCell}>
+          {/* 关联/取消关联按钮 */}
+          {showAssociationActions && (
+            <>
+              {isModelAssociated(model.id) ? (
+                <button
+                  className={`${styles.actionButton} ${styles.disassociateButton}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDisassociate?.(model.id);
+                  }}
+                  title="取消关联"
+                >
+                  取消关联
+                </button>
+              ) : (
+                <button
+                  className={`${styles.actionButton} ${styles.associateButton}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onAssociate?.(model.id);
+                  }}
+                  title="关联模型"
+                >
+                  关联
+                </button>
+              )}
+            </>
+          )}
+
           <Tooltip
             content={<ModelPreview model={model} />}
             position="top"

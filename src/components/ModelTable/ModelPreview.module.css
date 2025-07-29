@@ -1,6 +1,8 @@
 /* 模型预览容器 */
 .modelPreview {
-  width: 280px;
+  min-width: 280px;
+  max-width: 400px;
+  width: max-content;
   color: var(--text-primary);
 }
 
@@ -60,7 +62,7 @@
   font-size: var(--font-sm);
   font-weight: var(--font-semibold);
   color: var(--text-primary);
-  margin: 0 0 var(--spacing-sm) 0;
+  margin: 0 0 8px 0;
 }
 
 /* 推荐规格 */
@@ -88,34 +90,41 @@
   font-family: 'Monaco', 'Consolas', monospace;
 }
 
-/* 标签统计 */
-.tagStats {
-  margin-bottom: var(--spacing-md);
-  padding-bottom: var(--spacing-sm);
-  border-bottom: 1px solid var(--border-color);
-}
-
 .statsGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-xs);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .statItem {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 2px 0;
 }
 
 .statTag {
-  font-size: var(--font-xs);
+  font-size: 11px;
   color: var(--text-secondary);
+  background-color: var(--tertiary-bg);
+  padding: 1px 4px;
+  border-radius: 3px;
+  border: 1px solid var(--border-color);
+  flex-shrink: 0;
+  max-width: 280px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .statCount {
-  font-size: var(--font-xs);
+  font-size: 11px;
   color: var(--warning-color);
   font-weight: var(--font-medium);
+  flex-shrink: 0;
+  min-width: 40px;
+  text-align: right;
 }
 
 
@@ -123,7 +132,9 @@
 /* 响应式调整 */
 @media (max-width: 768px) {
   .modelPreview {
-    width: 240px;
+    min-width: 240px;
+    max-width: 320px;
+    width: max-content;
   }
   
   .placeholder {
@@ -132,7 +143,22 @@
   }
   
   .statsGrid {
-    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+  
+  .statItem {
+    padding: 1px 0;
+  }
+  
+  .statTag {
+    font-size: 10px;
+    padding: 1px 3px;
+    max-width: 200px;
+  }
+  
+  .statCount {
+    font-size: 10px;
+    min-width: 35px;
   }
   
   .modelName {
@@ -141,5 +167,6 @@
   
   .sectionTitle {
     font-size: var(--font-xs);
+    margin-bottom: 6px;
   }
 }

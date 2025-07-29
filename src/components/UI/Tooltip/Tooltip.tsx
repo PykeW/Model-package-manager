@@ -38,27 +38,24 @@ export const Tooltip: React.FC<TooltipProps> = ({
     const spaceLeft = container.left;
     const spaceRight = viewport.width - container.right;
 
-    const tooltipWidth = 300; // ModelPreview的宽度
-    const tooltipHeight = 450; // 估计的高度
+    const minTooltipWidth = 280; // ModelPreview的最小宽度
+    const minMargin = 20; // 最小边距
 
-    // 根据可用空间选择最佳位置
-    if (position === 'top' && spaceTop >= tooltipHeight) {
-      return 'top';
-    } else if (position === 'bottom' && spaceBottom >= tooltipHeight) {
-      return 'bottom';
-    } else if (position === 'left' && spaceLeft >= tooltipWidth) {
-      return 'left';
-    } else if (position === 'right' && spaceRight >= tooltipWidth) {
-      return 'right';
+    // 优先选择垂直空间最大的位置（上或下）
+    if (spaceBottom > spaceTop) {
+      // 下方空间更大
+      if (spaceBottom >= minMargin * 2) return 'bottom';
+    } else {
+      // 上方空间更大
+      if (spaceTop >= minMargin * 2) return 'top';
     }
 
-    // 如果首选位置不可用，选择空间最大的位置
-    if (spaceTop >= tooltipHeight) return 'top';
-    if (spaceBottom >= tooltipHeight) return 'bottom';
-    if (spaceRight >= tooltipWidth) return 'right';
-    if (spaceLeft >= tooltipWidth) return 'left';
+    // 如果垂直空间都不够，选择水平方向
+    if (spaceRight >= minTooltipWidth + minMargin) return 'right';
+    if (spaceLeft >= minTooltipWidth + minMargin) return 'left';
 
-    // 默认返回top
+    // 默认选择空间最大的方向
+    if (spaceBottom >= spaceTop) return 'bottom';
     return 'top';
   };
 
@@ -67,30 +64,152 @@ export const Tooltip: React.FC<TooltipProps> = ({
 
     const container = containerRef.current.getBoundingClientRect();
     const tooltip = tooltipRef.current;
+    const tooltipContent = tooltip.querySelector('.tooltipContent') as HTMLElement;
+    const viewport = {
+      width: window.innerWidth,
+      height: window.innerHeight
+    };
 
-    // 根据实际位置设置tooltip的位置
-    switch (actualPosition) {
-      case 'top':
-        tooltip.style.left = `${container.left + container.width / 2}px`;
-        tooltip.style.top = `${container.top - 10}px`;
-        tooltip.style.transform = 'translateX(-50%) translateY(-100%)';
-        break;
-      case 'bottom':
-        tooltip.style.left = `${container.left + container.width / 2}px`;
-        tooltip.style.top = `${container.bottom + 10}px`;
-        tooltip.style.transform = 'translateX(-50%)';
-        break;
-      case 'left':
-        tooltip.style.left = `${container.left - 10}px`;
-        tooltip.style.top = `${container.top + container.height / 2}px`;
-        tooltip.style.transform = 'translateX(-100%) translateY(-50%)';
-        break;
-      case 'right':
-        tooltip.style.left = `${container.right + 10}px`;
-        tooltip.style.top = `${container.top + container.height / 2}px`;
-        tooltip.style.transform = 'translateY(-50%)';
-        break;
+    const maxTooltipWidth = 400;
+    const minTooltipWidth = 280;
+    const margin = 20;
+
+    // 首先让内容恢复自然高度以测量实际需要的空间
+    if (tooltipContent) {
+      tooltipContent.style.maxHeight = 'none';
+      tooltipContent.style.overflowY = 'visible';
+      tooltipContent.style.width = 'max-content';
     }
+
+    // 延迟一帧来获取实际内容高度和宽度
+    requestAnimationFrame(() => {
+      const actualContentHeight = tooltipContent ? tooltipContent.scrollHeight + 32 : 400; // 加上padding
+      const actualContentWidth = tooltipContent ? Math.min(tooltipContent.scrollWidth, maxTooltipWidth) : minTooltipWidth;
+      
+      let left = 0;
+      let top = 0;
+      let transform = '';
+      let maxHeight = 'none';
+
+      // 根据实际位置设置tooltip的位置
+      switch (actualPosition) {
+        case 'top': {
+          left = container.left + container.width / 2;
+          const availableTopSpace = container.top - margin;
+          
+          if (actualContentHeight <= availableTopSpace) {
+            // 内容可以完全显示，不需要滚动
+            top = container.top - margin;
+            transform = 'translateX(-50%) translateY(-100%)';
+            maxHeight = 'none';
+          } else {
+            // 内容超出可用空间，需要限制高度并启用滚动
+            top = margin;
+            transform = 'translateX(-50%)';
+            maxHeight = `${availableTopSpace}px`;
+          }
+          
+          // 水平边界检测
+          if (left - actualContentWidth / 2 < margin) {
+            left = actualContentWidth / 2 + margin;
+          } else if (left + actualContentWidth / 2 > viewport.width - margin) {
+            left = viewport.width - actualContentWidth / 2 - margin;
+          }
+          break;
+        }
+          
+        case 'bottom': {
+          left = container.left + container.width / 2;
+          const availableBottomSpace = viewport.height - container.bottom - margin;
+          
+          if (actualContentHeight <= availableBottomSpace) {
+            // 内容可以完全显示
+            top = container.bottom + margin;
+            transform = 'translateX(-50%)';
+            maxHeight = 'none';
+          } else {
+            // 内容超出可用空间
+            top = container.bottom + margin;
+            transform = 'translateX(-50%)';
+            maxHeight = `${availableBottomSpace}px`;
+          }
+          
+          // 水平边界检测
+          if (left - actualContentWidth / 2 < margin) {
+            left = actualContentWidth / 2 + margin;
+          } else if (left + actualContentWidth / 2 > viewport.width - margin) {
+            left = viewport.width - actualContentWidth / 2 - margin;
+          }
+          break;
+        }
+          
+        case 'left': {
+          left = container.left - margin;
+          top = container.top + container.height / 2;
+          transform = 'translateX(-100%) translateY(-50%)';
+          
+          const availableLeftHeight = viewport.height - margin * 2;
+          if (actualContentHeight > availableLeftHeight) {
+            maxHeight = `${availableLeftHeight}px`;
+            // 调整垂直位置确保不超出屏幕
+            if (top - actualContentHeight / 2 < margin) {
+              top = margin + actualContentHeight / 2;
+            } else if (top + actualContentHeight / 2 > viewport.height - margin) {
+              top = viewport.height - margin - actualContentHeight / 2;
+            }
+          }
+          break;
+        }
+          
+        case 'right': {
+          left = container.right + margin;
+          top = container.top + container.height / 2;
+          transform = 'translateY(-50%)';
+          
+          const availableRightHeight = viewport.height - margin * 2;
+          if (actualContentHeight > availableRightHeight) {
+            maxHeight = `${availableRightHeight}px`;
+            // 调整垂直位置确保不超出屏幕
+            if (top - actualContentHeight / 2 < margin) {
+              top = margin + actualContentHeight / 2;
+            } else if (top + actualContentHeight / 2 > viewport.height - margin) {
+              top = viewport.height - margin - actualContentHeight / 2;
+            }
+          }
+          break;
+        }
+      }
+
+      // 移动端特殊处理
+      const isMobile = viewport.width <= 768;
+      if (isMobile) {
+        // 移动端固定在屏幕中央显示
+        left = viewport.width / 2;
+        top = Math.min(container.bottom + margin, viewport.height / 2);
+        transform = 'translateX(-50%) translateY(-50%)';
+        
+        const availableMobileHeight = viewport.height - 40;
+        if (actualContentHeight > availableMobileHeight) {
+          maxHeight = `${availableMobileHeight}px`;
+        }
+      }
+
+      // 应用位置和样式
+      tooltip.style.left = `${left}px`;
+      tooltip.style.top = `${top}px`;
+      tooltip.style.transform = transform;
+      
+      // 应用高度限制和滚动设置
+      if (tooltipContent) {
+        if (maxHeight === 'none') {
+          tooltipContent.style.maxHeight = 'none';
+          tooltipContent.style.overflowY = 'visible';
+        } else {
+          tooltipContent.style.maxHeight = maxHeight;
+          tooltipContent.style.overflowY = 'auto';
+        }
+      }
+    });
   };
 
   const handleMouseEnter = () => {

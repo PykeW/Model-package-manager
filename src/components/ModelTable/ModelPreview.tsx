@@ -49,20 +49,11 @@ export const ModelPreview: React.FC<ModelPreviewProps> = ({ model }) => {
           <span className={styles.label}>版本:</span>
           <span className={styles.value}>{model.version}</span>
         </div>
-      </div>
-
-      {/* 推荐规格 */}
-      <div className={styles.specifications}>
-        <h5 className={styles.sectionTitle}>推荐规格</h5>
-        <div className={styles.specItem}>
-          <span className={styles.specLabel}>输入尺寸:</span>
-          <span className={styles.specValue}>
+        <div className={styles.infoRow}>
+          <span className={styles.label}>输入尺寸:</span>
+          <span className={styles.value}>
             {model.type === 'segmentation' ? '512×512' : '640×640'}
           </span>
-        </div>
-        <div className={styles.specItem}>
-          <span className={styles.specLabel}>图片格式:</span>
-          <span className={styles.specValue}>JPG, PNG</span>
         </div>
       </div>
 
@@ -72,14 +63,12 @@ export const ModelPreview: React.FC<ModelPreviewProps> = ({ model }) => {
         <div className={styles.statsGrid}>
           {tagStats.map((stat, index) => (
             <div key={index} className={styles.statItem}>
-              <span className={styles.statTag}>{stat.tag}:</span>
+              <span className={styles.statTag}>{stat.tag}</span>
               <span className={styles.statCount}>{stat.count}个</span>
             </div>
           ))}
         </div>
       </div>
-
-
     </div>
   );
 };

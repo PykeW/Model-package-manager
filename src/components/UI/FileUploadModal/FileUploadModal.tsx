@@ -185,9 +185,6 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
             <p className={styles.dropzoneText}>
               支持格式: {acceptedTypes.replace(/\./g, '').toUpperCase()}
             </p>
-            <p className={styles.dropzoneText}>
-              最大文件大小: {maxSize}MB
-            </p>
             <Button variant="primary" size="small">
               选择文件
             </Button>

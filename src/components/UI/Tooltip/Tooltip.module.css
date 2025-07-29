@@ -28,8 +28,21 @@
   border-radius: var(--radius-md);
   padding: var(--spacing-md);
   box-shadow: var(--shadow-lg);
-  max-width: 300px;
-  min-width: 200px;
+  max-width: 400px;
+  min-width: 280px;
+  width: max-content;
+  overflow-y: auto;
+  box-sizing: border-box;
+  /* 隐藏滚动条但保持滚动功能 */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 和 Edge */
+  /* 平滑过渡 */
+  transition: max-height 0.2s ease-out;
+}
+
+/* 隐藏 Webkit 浏览器的滚动条 */
+.tooltipContent::-webkit-scrollbar {
+  display: none;
 }
 
 /* 箭头 */
@@ -77,20 +90,21 @@
 /* 响应式调整 */
 @media (max-width: 768px) {
   .tooltipContent {
-    max-width: 250px;
-    min-width: 180px;
+    max-width: calc(100vw - 20px);
+    min-width: 250px;
     padding: var(--spacing-sm);
+    overflow-y: auto;
   }
   
-  .tooltip.top,
-  .tooltip.bottom {
-    left: 0;
-    right: 0;
-    margin: 0 var(--spacing-sm);
+  .tooltip {
+    /* 确保移动端弹窗不会超出屏幕 */
+    max-width: calc(100vw - 20px);
+    left: 10px !important;
+    right: auto !important;
+    transform: none !important;
   }
   
-  .tooltip.top.visible,
-  .tooltip.bottom.visible {
-    transform: scale(1);
+  .tooltip.visible {
+    transform: scale(1) !important;
   }
 }

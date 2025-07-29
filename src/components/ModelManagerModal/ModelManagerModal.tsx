@@ -205,7 +205,7 @@ export const ModelManagerModal: React.FC<ModelManagerModalProps> = ({
           <div className={styles.managerContent}>
             <ModelManager
               models={models}
-              showHeader={true}
+              showHeader={false}
               className={styles.manager}
               onAddModel={() => setUploadModalOpen(true)}
             />

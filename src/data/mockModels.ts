@@ -12,13 +12,20 @@ export const mockModels: Model[] = [
     type: 'segmentation',
     version: 'v2024.01.15.1430',
     timestamp: new Date('2024-12-15T09:30:00'),
-    tags: ['上1', '整体大块', '核心区域'],
+    tags: [
+      '上1', '整体大块', '核心区域', '边缘缺陷', '表面划痕', 
+      '气泡', '污点', '变形', '裂纹', '破损',
+      '色差', '异物', '凹陷', '凸起', '毛刺',
+      '锈蚀', '腐蚀', '磨损', '断裂', '松动',
+      '偏移', '错位', '缺失', '多余', '尺寸异常',
+      '形状异常', '纹理异常', '光泽异常', '透明度异常', '厚度异常'
+    ],
     status: 'active',
     metadata: {
       size: 52428800, // 50MB
       accuracy: 0.892,
       framework: 'PyTorch',
-      description: '基于YOLOv8的实例分割模型，适用于实时场景',
+      description: '基于YOLOv8的实例分割模型，适用于实时场景，支持30种缺陷类型检测',
       author: 'AI团队',
       license: 'MIT',
       trainingDataset: 'COCO 2017',
