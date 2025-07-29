@@ -5,8 +5,6 @@
 .tableWrapper {
   position: relative;
   overflow: auto;
-  border: 1px solid #4a4a4a;
-  border-radius: 4px;
   background-color: #2a2a2a;
 }
 
@@ -14,6 +12,7 @@
   width: 100%;
   border-collapse: collapse;
   font-size: var(--font-sm);
+  table-layout: fixed;
 }
 
 .tableHeader {
@@ -24,7 +23,7 @@
 }
 
 .tableHeaderCell {
-  padding: var(--spacing-sm) var(--spacing-xs);
+  padding: var(--spacing-sm) 0;
   text-align: left;
   font-weight: var(--font-semibold);
   color: #e0e0e0;
@@ -32,10 +31,51 @@
   border-right: 1px solid #4a4a4a;
   white-space: nowrap;
   user-select: none;
+  position: relative;
+}
+
+.tableHeaderCell:first-child {
+  padding-left: calc(var(--spacing-md) + 2px);
 }
 
 .tableHeaderCell:last-child {
+  padding-right: var(--spacing-md);
   border-right: none;
+}
+
+/* 列宽调整拖拽条 */
+.resizeHandle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  cursor: col-resize;
+  background-color: transparent;
+  transition: background-color 0.2s ease;
+  z-index: 10;
+}
+
+.resizeHandle:hover {
+  background-color: #4a9eff;
+}
+
+.resizeHandle:active {
+  background-color: #4a9eff;
+}
+
+/* 隐藏最后一列的拖拽条 */
+.tableHeaderCell:last-child .resizeHandle {
+  display: none;
+}
+
+/* 拖拽时的样式 */
+.table.resizing {
+  user-select: none;
+}
+
+.table.resizing * {
+  user-select: none;
 }
 
 .sortable {
@@ -88,14 +128,19 @@
 }
 
 .tableCell {
-  padding: var(--spacing-sm) var(--spacing-xs);
+  padding: var(--spacing-sm) 0;
   color: #b0b0b0;
   border-bottom: 1px solid #4a4a4a;
   border-right: 1px solid #4a4a4a;
   vertical-align: middle;
 }
 
+.tableCell:first-child {
+  padding-left: calc(var(--spacing-md) + 2px);
+}
+
 .tableCell:last-child {
+  padding-right: var(--spacing-md);
   border-right: none;
 }
 

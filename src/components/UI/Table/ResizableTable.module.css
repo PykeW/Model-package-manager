@@ -1,0 +1,88 @@
+/**
+ * ResizableTable组件样式 - 可拖动调整列宽的表格
+ */
+
+.resizableTableContainer {
+  position: relative;
+  width: 100%;
+}
+
+.headerCell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.headerLabel {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.resizeHandle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  cursor: col-resize;
+  background-color: transparent;
+  border-right: 1px solid #4a4a4a;
+  transition: background-color 0.2s ease;
+  z-index: 1;
+}
+
+.resizeHandle:hover {
+  background-color: #4a9eff;
+  border-right-color: #4a9eff;
+}
+
+.resizeHandle:active {
+  background-color: #4a9eff;
+  border-right-color: #4a9eff;
+}
+
+/* 拖拽时的全局样式 */
+body.resizing {
+  cursor: col-resize !important;
+  user-select: none !important;
+}
+
+body.resizing * {
+  cursor: col-resize !important;
+  user-select: none !important;
+}
+
+/* 确保表格列正确调整大小 */
+.resizableTableContainer table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.resizableTableContainer th,
+.resizableTableContainer td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  position: relative;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .resizeHandle {
+    width: 6px;
+  }
+}
+
+/* 防止拖拽时文本选择 */
+.resizableTableContainer.resizing {
+  user-select: none;
+}
+
+.resizableTableContainer.resizing th,
+.resizableTableContainer.resizing td {
+  user-select: none;
+} 

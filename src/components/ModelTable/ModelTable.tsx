@@ -45,7 +45,7 @@ export const ModelTable: React.FC<ModelTableProps> = ({
     {
       key: 'index',
       label: '序号',
-      width: '60px',
+      width: '6%',
       align: 'center',
       render: (_, __, index) => (
         <span className={styles.indexCell}>
@@ -57,10 +57,10 @@ export const ModelTable: React.FC<ModelTableProps> = ({
       key: 'name',
       label: '模型名称',
       sortable: true,
-      width: '200px',
-      render: (value: string, model: Model) => (
+      width: '24%',
+      render: (value: unknown, model: Model) => (
         <div className={styles.nameCell}>
-          <span className={styles.modelName}>{value}</span>
+          <span className={styles.modelName}>{String(value)}</span>
           <button
             className={styles.editButton}
             onClick={(e) => {
@@ -82,11 +82,11 @@ export const ModelTable: React.FC<ModelTableProps> = ({
       key: 'type',
       label: '类型',
       sortable: true,
-      width: '100px',
-      render: (value) => (
+      width: '12%',
+      render: (value: unknown) => (
         <Tag
-          label={value === 'segmentation' ? '分割模型' : '检测模型'}
-          color={value === 'segmentation' ? 'primary' : 'secondary'}
+          label={String(value) === 'segmentation' ? '分割模型' : '检测模型'}
+          color={String(value) === 'segmentation' ? 'primary' : 'secondary'}
         />
       )
     },
@@ -95,9 +95,9 @@ export const ModelTable: React.FC<ModelTableProps> = ({
       key: 'size',
       label: '大小',
       sortable: true,
-      width: '100px',
+      width: '10%',
       align: 'right',
-      render: (_, model) => (
+      render: (_, model: Model) => (
         <span className={styles.sizeCell}>
           {formatFileSize(model.metadata.size)}
         </span>
@@ -107,46 +107,52 @@ export const ModelTable: React.FC<ModelTableProps> = ({
       key: 'version',
       label: '版本',
       sortable: true,
-      width: '150px',
-      render: (value) => (
-        <div className={styles.versionCell}>
-          <select
-            className={styles.versionSelect}
-            value={value}
-            onChange={(e) => console.log('Version changed:', e.target.value)}
-          >
-            <option value={value}>{value}</option>
-            {/* 这里可以添加其他版本选项 */}
-          </select>
-        </div>
-      )
+      width: '15%',
+      render: (value: unknown) => {
+        const versionValue = String(value);
+        return (
+          <div className={styles.versionCell}>
+            <select
+              className={styles.versionSelect}
+              value={versionValue}
+              onChange={(e) => console.log('Version changed:', e.target.value)}
+            >
+              <option value={versionValue}>{versionValue}</option>
+              {/* 这里可以添加其他版本选项 */}
+            </select>
+          </div>
+        );
+      }
     },
     {
       key: 'tags',
       label: '标签',
-      width: '200px',
-      render: (value: string[]) => (
-        <div className={styles.tagsCell}>
-          {value.slice(0, 2).map((tag, index) => (
-            <Tag
-              key={index}
-              label={tag}
-              color="secondary"
-              className={styles.tag}
-            />
-          ))}
-          {value.length > 2 && (
-            <span className={styles.moreTagsIndicator}>
-              +{value.length - 2}
-            </span>
-          )}
-        </div>
-      )
+      width: '20%',
+      render: (value: unknown) => {
+        const tags = Array.isArray(value) ? value : [];
+        return (
+          <div className={styles.tagsCell}>
+            {tags.slice(0, 2).map((tag, index) => (
+              <Tag
+                key={index}
+                label={String(tag)}
+                color="secondary"
+                className={styles.tag}
+              />
+            ))}
+            {tags.length > 2 && (
+              <span className={styles.moreTagsIndicator}>
+                +{tags.length - 2}
+              </span>
+            )}
+          </div>
+        );
+      }
     },
     {
       key: 'actions',
       label: '操作',
-      width: '180px',
+      width: '18%',
       align: 'center',
       render: (_, model) => (
         <div className={styles.actionsCell}>
@@ -252,7 +258,7 @@ export const ModelTable: React.FC<ModelTableProps> = ({
   // 增强表格列，添加排序处理
   const enhancedColumns = columns.map(column => ({
     ...column,
-    render: column.render || ((value: any) => value),
+    render: column.render || ((value: unknown) => String(value)),
     onClick: column.sortable ? () => handleSort(column) : undefined
   }));
 
