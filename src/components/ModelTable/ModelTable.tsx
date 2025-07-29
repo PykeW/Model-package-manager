@@ -214,6 +214,7 @@ export const ModelTable: React.FC<ModelTableProps> = ({
             content={<ModelPreview model={model} />}
             position="top"
             delay={300}
+            clickToStay={true}
           >
             <button
               className={`${styles.actionButton} ${styles.detailButton}`}

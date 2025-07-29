@@ -57,41 +57,7 @@
   white-space: nowrap;
 }
 
-/* 响应式调整 */
-@media (max-width: 768px) {
-  .filterContainer {
-    padding: var(--spacing-md);
-    gap: var(--spacing-sm);
-    flex-direction: column;
-  }
-  
-  .searchContainer {
-    flex: 1;
-    max-width: none;
-  }
-  
-  .filtersContainer {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: var(--spacing-sm);
-  }
-  
-  .filterGroup {
-    min-width: auto;
-    flex: 1;
-  }
-  
-  .filterSelect {
-    min-width: auto;
-    width: 100%;
-  }
-  
-  .resetButton,
-  .actionButton {
-    flex: 0 0 auto;
-  }
-}
+
 
 /* 高对比度模式 */
 @media (prefers-contrast: high) {

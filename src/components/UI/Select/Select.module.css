@@ -104,13 +104,7 @@
   color: var(--text-primary);
 }
 
-/* 响应式调整 */
-@media (max-width: 768px) {
-  .select {
-    height: var(--input-height-lg);
-    font-size: var(--font-md);
-  }
-}
+
 
 /* 高对比度模式 */
 @media (prefers-contrast: high) {

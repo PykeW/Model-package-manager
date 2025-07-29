@@ -70,12 +70,7 @@ body.resizing * {
   position: relative;
 }
 
-/* 响应式设计 */
-@media (max-width: 768px) {
-  .resizeHandle {
-    width: 6px;
-  }
-}
+
 
 /* 防止拖拽时文本选择 */
 .resizableTableContainer.resizing {

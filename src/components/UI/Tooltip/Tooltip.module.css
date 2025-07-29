@@ -15,15 +15,12 @@
   z-index: 1000;
   opacity: 0;
   visibility: hidden;
-  transform: scale(0.8);
-  transition: all var(--transition-normal);
   pointer-events: none;
 }
 
 .tooltip.visible {
   opacity: 1;
   visibility: visible;
-  transform: scale(1);
 }
 
 /* 点击保持显示状态 */
@@ -34,6 +31,9 @@
 .tooltip.stayVisible .tooltipContent {
   box-shadow: 0 4px 16px rgba(74, 158, 255, 0.3), var(--shadow-lg);
   border-color: var(--accent-color);
+  border-width: 2px;
+  /* 添加轻微的蓝色光晕效果，表示锁定状态 */
+  box-shadow: 0 0 0 2px rgba(74, 158, 255, 0.2), var(--shadow-lg);
 }
 
 /* 工具提示内容 */
@@ -46,13 +46,12 @@
   max-width: 400px;
   min-width: 280px;
   width: max-content;
+  max-height: 400px;
   overflow-y: auto;
   box-sizing: border-box;
   /* 隐藏滚动条但保持滚动功能 */
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE 和 Edge */
-  /* 平滑过渡 */
-  transition: max-height 0.2s ease-out;
 }
 
 /* 隐藏 Webkit 浏览器的滚动条 */
@@ -69,9 +68,6 @@
 }
 
 /* 位置样式 - 简化版，位置由JavaScript控制 */
-.tooltip.visible {
-  transform: scale(1);
-}
 
 /* 箭头位置 */
 .tooltip.top .tooltipArrow {
@@ -102,24 +98,4 @@
   border-right-color: var(--border-color);
 }
 
-/* 响应式调整 */
-@media (max-width: 768px) {
-  .tooltipContent {
-    max-width: calc(100vw - 20px);
-    min-width: 250px;
-    padding: var(--spacing-sm);
-    overflow-y: auto;
-  }
-  
-  .tooltip {
-    /* 确保移动端弹窗不会超出屏幕 */
-    max-width: calc(100vw - 20px);
-    left: 10px !important;
-    right: auto !important;
-    transform: none !important;
-  }
-  
-  .tooltip.visible {
-    transform: scale(1) !important;
-  }
-}
+

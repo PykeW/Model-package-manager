@@ -231,18 +231,7 @@
   }
 }
 
-/* 响应式调整 */
-@media (max-width: 768px) {
-  .tableHeaderCell,
-  .tableCell {
-    padding: var(--spacing-sm);
-    font-size: var(--font-xs);
-  }
-  
-  .tableWrapper {
-    font-size: var(--font-xs);
-  }
-}
+
 
 /* 高对比度模式 */
 @media (prefers-contrast: high) {

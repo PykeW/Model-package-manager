@@ -130,41 +130,7 @@
   }
 }
 
-/* 响应式调整 */
-@media (max-width: 768px) {
-  .backdrop {
-    padding: var(--spacing-md);
-  }
-  
-  .modal {
-    max-height: 95vh;
-  }
-  
-  .small,
-  .medium,
-  .large {
-    width: 100%;
-    max-width: none;
-  }
-  
-  .fullscreen {
-    width: 100vw;
-    height: 100vh;
-    border-radius: 0;
-  }
-  
-  .header {
-    padding: var(--spacing-md);
-  }
-  
-  .content {
-    padding: var(--spacing-md);
-  }
-  
-  .title {
-    font-size: var(--font-md);
-  }
-}
+
 
 /* 高对比度模式 */
 @media (prefers-contrast: high) {

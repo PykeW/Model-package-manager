@@ -107,35 +107,7 @@
   }
 }
 
-@media (max-width: 768px) {
-  .modelManager {
-    height: 100vh;
-  }
-  
-  .header {
-    padding: var(--spacing-md);
-  }
-  
-  .title {
-    font-size: var(--font-xl);
-  }
-  
-  .subtitle {
-    font-size: var(--font-xs);
-  }
-  
-  .filterSection {
-    padding: var(--spacing-sm) var(--spacing-md);
-  }
-  
-  .tableSection {
-    padding: 0 var(--spacing-md);
-  }
-  
-  .footer {
-    padding: var(--spacing-sm) var(--spacing-md);
-  }
-}
+
 
 /* 高对比度模式 */
 @media (prefers-contrast: high) {

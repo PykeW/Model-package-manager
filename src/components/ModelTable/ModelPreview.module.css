@@ -129,44 +129,4 @@
 
 
 
-/* 响应式调整 */
-@media (max-width: 768px) {
-  .modelPreview {
-    min-width: 240px;
-    max-width: 320px;
-    width: max-content;
-  }
-  
-  .placeholder {
-    width: 160px;
-    height: 120px;
-  }
-  
-  .statsGrid {
-    gap: 4px;
-  }
-  
-  .statItem {
-    padding: 1px 0;
-  }
-  
-  .statTag {
-    font-size: 10px;
-    padding: 1px 3px;
-    max-width: 200px;
-  }
-  
-  .statCount {
-    font-size: 10px;
-    min-width: 35px;
-  }
-  
-  .modelName {
-    font-size: var(--font-sm);
-  }
-  
-  .sectionTitle {
-    font-size: var(--font-xs);
-    margin-bottom: 6px;
-  }
-}
+

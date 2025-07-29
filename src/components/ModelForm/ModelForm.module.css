@@ -119,31 +119,8 @@
   border-top: 1px solid var(--border-color);
 }
 
-/* 响应式调整 */
-@media (max-width: 768px) {
-  .form {
-    padding: var(--spacing-md);
-    gap: var(--spacing-md);
-  }
-  
-  .section {
-    padding: var(--spacing-sm);
-  }
-  
-  .formRow {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-sm);
-  }
-  
-  .actions {
-    flex-direction: column-reverse;
-    gap: var(--spacing-sm);
-  }
-  
-  .actions button {
-    width: 100%;
-  }
-}
+
+
 
 /* 高对比度模式 */
 @media (prefers-contrast: high) {

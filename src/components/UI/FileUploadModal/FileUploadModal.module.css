@@ -3,10 +3,6 @@
  * 工业深色主题设计
  */
 
-.uploadModal {
-  /* Modal覆盖样式 */
-}
-
 .uploadContent {
   padding: 1.5rem;
   display: flex;
@@ -217,52 +213,6 @@
   border-top: 1px solid var(--color-border);
 }
 
-/* ========== 响应式设计 ========== */
-@media (max-width: 768px) {
-  .uploadContent {
-    padding: 1rem;
-    gap: 1rem;
-  }
-  
-  .dropzone {
-    padding: 2rem 1rem;
-  }
-  
-  .dropzoneTitle {
-    font-size: 1.125rem;
-  }
-  
-  .uploadIcon {
-    font-size: 2.5rem;
-  }
-  
-  .actions {
-    flex-direction: column-reverse;
-  }
-  
-  .fileInfo {
-    gap: 0.125rem;
-  }
-  
-  .fileName {
-    font-size: 0.875rem;
-  }
-}
 
-@media (max-width: 480px) {
-  .uploadContent {
-    padding: 0.75rem;
-  }
-  
-  .dropzone {
-    padding: 1.5rem 0.75rem;
-  }
-  
-  .fileItem {
-    padding: 0.5rem;
-  }
-  
-  .progressContainer {
-    padding: 0.75rem;
-  }
-} 
+
+ 

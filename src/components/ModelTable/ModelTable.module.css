@@ -85,6 +85,10 @@
 .frameworkCell {
   font-weight: var(--font-medium);
   color: var(--text-secondary);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* 大小列样式 */
@@ -92,6 +96,10 @@
   font-family: 'Monaco', 'Consolas', monospace;
   font-weight: var(--font-medium);
   color: var(--text-primary);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* 准确率列样式 */
@@ -105,6 +113,7 @@
 .versionCell {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .versionSelect {
@@ -355,63 +364,8 @@
   transition: all var(--transition-fast);
 }
 
-/* 响应式调整 */
-@media (max-width: 1200px) {
-  .nameCell {
-    min-width: 150px;
-  }
-  
-  .tagsCell {
-    max-width: 150px;
-  }
-}
 
-@media (max-width: 768px) {
-  .modelName {
-    font-size: var(--font-xs);
-  }
 
-  .editButton {
-    width: 20px;
-    height: 20px;
-  }
-
-  .editButton svg {
-    width: 12px;
-    height: 12px;
-  }
-
-  .nameCell {
-    gap: var(--spacing-xs);
-  }
-  
-  .tag {
-    font-size: 10px;
-    padding: 1px var(--spacing-xs);
-  }
-  
-  .indexCell {
-    font-size: 10px;
-    padding: 2px var(--spacing-xs);
-  }
-
-  /* 移动端操作按钮调整 */
-  .actionsCell {
-    gap: var(--spacing-xs);
-    padding: var(--spacing-xs);
-    justify-content: space-around;
-  }
-
-  .actionButton {
-    width: 28px;
-    height: 28px;
-  }
-
-  .actionButton svg {
-    width: 14px;
-    height: 14px;
-  }
-}
 
 /* 高对比度模式 */
 @media (prefers-contrast: high) {
