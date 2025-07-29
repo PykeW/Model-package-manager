@@ -58,7 +58,9 @@
 
 .filterSection {
   flex-shrink: 0;
-  padding: 0 var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-sm);
+  background-color: #242424;
+  border-bottom: 1px solid #4a4a4a;
 }
 
 .tableSection {
@@ -67,35 +69,27 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  min-height: 0; /* 确保flex子项可以收缩 */
 }
 
 .table {
   flex: 1;
-  overflow: hidden;
+  min-height: 0; /* 允许表格内容滚动 */
 }
 
 .footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
   flex-shrink: 0;
   background-color: #2a2a2a;
   border-top: 1px solid #4a4a4a;
   padding: var(--spacing-md) var(--spacing-sm);
 }
 
-.footerContent {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-}
-
-.footerText {
+.modelCount {
   font-size: var(--font-xs);
-  color: var(--text-tertiary);
-}
-
-.footerActions {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
+  color: #b0b0b0;
 }
 
 /* 响应式调整 */
@@ -129,23 +123,16 @@
     font-size: var(--font-xs);
   }
   
-  .filterSection,
+  .filterSection {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+  
   .tableSection {
     padding: 0 var(--spacing-md);
   }
   
   .footer {
     padding: var(--spacing-sm) var(--spacing-md);
-  }
-  
-  .footerContent {
-    flex-direction: column;
-    align-items: stretch;
-    gap: var(--spacing-sm);
-  }
-  
-  .footerActions {
-    justify-content: center;
   }
 }
 
@@ -158,20 +145,6 @@
   .footer {
     border-top-width: 2px;
   }
-}
-
-/* ========== 新增：操作按钮栏 ========== */
-.actionBar {
-  padding: var(--spacing-sm) var(--spacing-sm);
-  background-color: #2a2a2a;
-  border-bottom: 1px solid #4a4a4a;
-  flex-shrink: 0;
-}
-
-.actionButtons {
-  display: flex;
-  gap: var(--spacing-sm);
-  align-items: center;
 }
 
 /* ========== 新增：方案面板样式 ========== */
@@ -189,13 +162,9 @@
 
 .schemeInfo {
   flex: 1;
-}
-
-.schemeHeader {
   display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  margin-bottom: var(--spacing-xs);
+  flex-direction: column;
+  gap: var(--spacing-xs);
 }
 
 .schemeLabel {
@@ -204,12 +173,15 @@
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  display: inline-block;
+  margin-right: var(--spacing-sm);
 }
 
 .schemeStatus {
   font-size: var(--font-xs);
   font-weight: 500;
   color: #52c41a; /* 默认运行中颜色 */
+  display: inline-block;
 }
 
 .schemeStatus.inactive {
@@ -254,22 +226,7 @@
   filter: brightness(1.1);
 }
 
-/* 顶部行 */
-.topRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 
-/* 状态信息 */
-.statusInfo {
-  flex: 1;
-}
-
-.modelCount {
-  font-size: var(--font-xs);
-  color: #b0b0b0;
-}
 
 /* 错误消息样式 */
 .errorMessage {

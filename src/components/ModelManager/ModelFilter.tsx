@@ -14,6 +14,8 @@ export interface ModelFilterProps {
   searchTerm: string;
   onSearchChange: (term: string) => void;
   className?: string;
+  onAddModel?: () => void;
+  onOpenFolder?: () => void;
 }
 
 export const ModelFilter: React.FC<ModelFilterProps> = ({
@@ -22,7 +24,9 @@ export const ModelFilter: React.FC<ModelFilterProps> = ({
   onReset,
   searchTerm,
   onSearchChange,
-  className = ''
+  className = '',
+  onAddModel,
+  onOpenFolder
 }) => {
   const handleTypeChange = (value: string) => {
     onFilterChange({
@@ -96,6 +100,28 @@ export const ModelFilter: React.FC<ModelFilterProps> = ({
         >
           重置
         </Button>
+        
+        {onAddModel && (
+          <Button
+            onClick={onAddModel}
+            variant="secondary"
+            size="small"
+            className={styles.actionButton}
+          >
+            导入模型
+          </Button>
+        )}
+        
+        {onOpenFolder && (
+          <Button
+            onClick={onOpenFolder}
+            variant="ghost"
+            size="small"
+            className={styles.actionButton}
+          >
+            📁 打开文件夹
+          </Button>
+        )}
       </div>
     </div>
   );

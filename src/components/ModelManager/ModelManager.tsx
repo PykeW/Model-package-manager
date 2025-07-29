@@ -164,36 +164,22 @@ export const ModelManager: React.FC<ModelManagerProps> = ({
             >
               导入模型
             </Button>
+            <Button 
+              variant="ghost"
+              onClick={() => {
+                console.log('打开模型文件夹');
+                // 模拟打开文件夹操作
+                if (window.confirm('是否打开模型存储文件夹？\n路径: C:\\AI_Models\\Storage')) {
+                  console.log('打开文件夹: C:\\AI_Models\\Storage');
+                }
+              }}
+            >
+              📁 打开文件夹
+            </Button>
             <Button variant="ghost">导出数据</Button>
           </div>
         </header>
       )}
-
-      {/* 操作按钮区域 */}
-      <div className={styles.actionBar}>
-        <div className={styles.actionButtons}>
-          <Button 
-            variant="secondary" 
-            size="small"
-            onClick={onAddModel}
-          >
-            导入模型
-          </Button>
-          <Button 
-            variant="ghost" 
-            size="small"
-            onClick={() => {
-              console.log('打开模型文件夹');
-              // 模拟打开文件夹操作
-              if (window.confirm('是否打开模型存储文件夹？\n路径: C:\\AI_Models\\Storage')) {
-                console.log('打开文件夹: C:\\AI_Models\\Storage');
-              }
-            }}
-          >
-            📁 打开模型文件夹
-          </Button>
-        </div>
-      </div>
 
       <div className={styles.filterSection}>
         <ModelFilter
@@ -203,6 +189,14 @@ export const ModelManager: React.FC<ModelManagerProps> = ({
           searchTerm={searchTerm}
           onSearchChange={setSearchTerm}
           className={styles.filter}
+          onAddModel={onAddModel}
+          onOpenFolder={() => {
+            console.log('打开模型文件夹');
+            // 模拟打开文件夹操作
+            if (window.confirm('是否打开模型存储文件夹？\n路径: C:\\AI_Models\\Storage')) {
+              console.log('打开文件夹: C:\\AI_Models\\Storage');
+            }
+          }}
         />
       </div>
 
@@ -222,49 +216,37 @@ export const ModelManager: React.FC<ModelManagerProps> = ({
       </div>
 
       <footer className={styles.footer}>
-        <div className={styles.footerContent}>
-          <div className={styles.topRow}>
-            <div className={styles.statusInfo}>
-              <span className={styles.modelCount}>
-                共 {models.length} 个模型，当前显示 {filteredModels.length} 个
+        <span className={styles.modelCount}>
+          共 {models.length} 个模型，当前显示 {filteredModels.length} 个
+        </span>
+        
+        {currentScheme && (
+          <div className={styles.schemePanel}>
+            <div className={styles.schemeInfo}>
+              <span className={styles.schemeLabel}>当前方案</span>
+              <span className={`${styles.schemeStatus} ${!currentScheme.isActive ? styles.inactive : ''}`}>
+                {currentScheme.isActive ? '● 运行中' : '○ 停用'}
               </span>
+              <div className={styles.schemeName}>{currentScheme.name}</div>
+              <div className={styles.schemeStats}>
+                已关联: <strong>{getAssociationsBySchemeId(currentScheme.id).filter(a => a.isEnabled).length}</strong> 个模型
+                {' | '}优先级: <strong>{currentScheme.priority}</strong>
+              </div>
             </div>
-            <div className={styles.footerActions}>
-              <Button variant="ghost" size="small">帮助</Button>
-              <Button variant="ghost" size="small">设置</Button>
+            <div className={styles.schemeActions}>
+              <Button 
+                variant="primary" 
+                size="small"
+                onClick={handleGoToAssociation}
+              >
+                管理关联
+              </Button>
+              <Button variant="ghost" size="small">
+                方案设置
+              </Button>
             </div>
           </div>
-          
-          {currentScheme && (
-            <div className={styles.schemePanel}>
-              <div className={styles.schemeInfo}>
-                <div className={styles.schemeHeader}>
-                  <span className={styles.schemeLabel}>当前方案</span>
-                  <span className={`${styles.schemeStatus} ${!currentScheme.isActive ? styles.inactive : ''}`}>
-                    {currentScheme.isActive ? '● 运行中' : '○ 停用'}
-                  </span>
-                </div>
-                <div className={styles.schemeName}>{currentScheme.name}</div>
-                <div className={styles.schemeStats}>
-                  已关联: <strong>{getAssociationsBySchemeId(currentScheme.id).filter(a => a.isEnabled).length}</strong> 个模型
-                  {' | '}优先级: <strong>{currentScheme.priority}</strong>
-                </div>
-              </div>
-              <div className={styles.schemeActions}>
-                <Button 
-                  variant="primary" 
-                  size="small"
-                  onClick={handleGoToAssociation}
-                >
-                  管理关联
-                </Button>
-                <Button variant="ghost" size="small">
-                  方案设置
-                </Button>
-              </div>
-            </div>
-          )}
-        </div>
+        )}
       </footer>
     </div>
   );
