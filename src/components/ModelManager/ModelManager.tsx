@@ -7,7 +7,7 @@ import type { Model, ModelSort, ModelAssociationType } from '../../types';
 import { useModelTable } from '../../hooks/useModelTable';
 import { ModelTable } from '../ModelTable';
 import { ModelFilter } from './ModelFilter';
-import { ModelAssociationPanel } from '../ModelAssociation';
+
 import { Button } from '../UI';
 import { getCurrentActiveScheme, getAssociationsBySchemeId, mockModelAssociations } from '../../data/mockSchemes';
 import styles from './ModelManager.module.css';
@@ -26,8 +26,11 @@ export const ModelManager: React.FC<ModelManagerProps> = ({
   onAddModel
 }) => {
   const [loading] = useState(false);
-  const [currentPage, setCurrentPage] = useState<'main' | 'association'>('main');
   const [associations, setAssociations] = useState<ModelAssociationType[]>(mockModelAssociations);
+  // 新增：视图模式状态
+  const [viewMode, setViewMode] = useState<'all' | 'associated'>('all');
+  // 新增：方案保存状态
+  const [isSaving, setIsSaving] = useState(false);
 
   // 获取当前活跃方案
   const currentScheme = getCurrentActiveScheme();
@@ -44,6 +47,19 @@ export const ModelManager: React.FC<ModelManagerProps> = ({
     setSearchTerm
   } = useModelTable({ models });
 
+  // 根据视图模式过滤模型
+  const viewFilteredModels = React.useMemo(() => {
+    if (viewMode === 'associated' && currentScheme) {
+      const associatedModelIds = new Set(
+        associations
+          .filter(a => a.schemeId === currentScheme.id && a.isEnabled)
+          .map(a => a.modelId)
+      );
+      return filteredModels.filter(model => associatedModelIds.has(model.id));
+    }
+    return filteredModels;
+  }, [filteredModels, viewMode, associations, currentScheme]);
+
   const handleRowClick = (model: Model) => {
     console.log('Selected model:', model);
   };
@@ -52,14 +68,34 @@ export const ModelManager: React.FC<ModelManagerProps> = ({
     setSort(newSort);
   };
 
-  // 导航到模型关联页面
-  const handleGoToAssociation = () => {
-    setCurrentPage('association');
+  // 切换关联模型视图
+  const handleToggleAssociationView = () => {
+    setViewMode(viewMode === 'associated' ? 'all' : 'associated');
   };
 
-  // 返回主页面
-  const handleBackToMain = () => {
-    setCurrentPage('main');
+  // 新增：切换方案功能
+  const handleSwitchScheme = () => {
+    alert('即将跳转到方案管理器...');
+    // 这里可以添加实际的跳转逻辑
+    console.log('跳转到方案管理器');
+  };
+
+  // 新增：保存方案功能
+  const handleSaveScheme = async () => {
+    if (!currentScheme) return;
+    
+    setIsSaving(true);
+    try {
+      // 模拟保存操作
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      console.log('保存方案:', currentScheme.name);
+      alert('方案保存成功！');
+    } catch (error) {
+      console.error('保存方案失败:', error);
+      alert('保存方案失败，请重试。');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   // 处理模型关联
@@ -94,18 +130,7 @@ export const ModelManager: React.FC<ModelManagerProps> = ({
     );
   };
 
-  // 处理优先级更新
-  const handleUpdatePriority = (modelId: string, priority: number) => {
-    if (!currentScheme) return;
-    
-    setAssociations(prev => 
-      prev.map(a => 
-        a.modelId === modelId && a.schemeId === currentScheme.id
-          ? { ...a, priority }
-          : a
-      )
-    );
-  };
+
 
   // 单个模型关联处理函数
   const handleSingleAssociate = (modelId: string) => {
@@ -117,38 +142,7 @@ export const ModelManager: React.FC<ModelManagerProps> = ({
     handleDisassociate([modelId]);
   };
 
-  // 如果显示模型关联子页面
-  if (currentPage === 'association') {
-    if (!currentScheme) {
-      return (
-        <div className={[styles.modelManager, className].filter(Boolean).join(' ')}>
-          <div className={styles.errorMessage}>
-            <p>没有找到当前活跃的运行方案</p>
-            <Button onClick={handleBackToMain} variant="primary">
-              返回模型管理
-            </Button>
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <div className={[styles.modelManager, className].filter(Boolean).join(' ')}>
-        <ModelAssociationPanel
-          currentScheme={currentScheme}
-          availableModels={models}
-          associatedModels={associations.filter(a => a.schemeId === currentScheme.id)}
-          onAssociate={handleAssociate}
-          onDisassociate={handleDisassociate}
-          onUpdatePriority={handleUpdatePriority}
-          onBack={handleBackToMain}
-          loading={loading}
-        />
-      </div>
-    );
-  }
-
-  // 默认显示主页面
+  // 主页面渲染
   return (
     <div className={[styles.modelManager, className].filter(Boolean).join(' ')}>
       {showHeader && (
@@ -202,7 +196,7 @@ export const ModelManager: React.FC<ModelManagerProps> = ({
 
       <div className={styles.tableSection}>
         <ModelTable
-          models={filteredModels}
+          models={viewFilteredModels}
           loading={loading}
           onRowClick={handleRowClick}
           onSort={handleSortChange}
@@ -217,16 +211,16 @@ export const ModelManager: React.FC<ModelManagerProps> = ({
 
       <footer className={styles.footer}>
         <span className={styles.modelCount}>
-          共 {models.length} 个模型，当前显示 {filteredModels.length} 个
+          {viewMode === 'associated' 
+            ? `已关联模型：${viewFilteredModels.length} 个` 
+            : `共 ${models.length} 个模型，当前显示 ${viewFilteredModels.length} 个`
+          }
         </span>
         
         {currentScheme && (
           <div className={styles.schemePanel}>
             <div className={styles.schemeInfo}>
               <span className={styles.schemeLabel}>当前方案</span>
-              <span className={`${styles.schemeStatus} ${!currentScheme.isActive ? styles.inactive : ''}`}>
-                {currentScheme.isActive ? '● 运行中' : '○ 停用'}
-              </span>
               <div className={styles.schemeName}>{currentScheme.name}</div>
               <div className={styles.schemeStats}>
                 已关联: <strong>{getAssociationsBySchemeId(currentScheme.id).filter(a => a.isEnabled).length}</strong> 个模型
@@ -237,12 +231,24 @@ export const ModelManager: React.FC<ModelManagerProps> = ({
               <Button 
                 variant="primary" 
                 size="small"
-                onClick={handleGoToAssociation}
+                onClick={handleToggleAssociationView}
               >
-                管理关联
+                {viewMode === 'associated' ? '显示全部' : '管理关联'}
               </Button>
-              <Button variant="ghost" size="small">
-                方案设置
+              <Button 
+                variant="ghost" 
+                size="small"
+                onClick={handleSwitchScheme}
+              >
+                切换方案
+              </Button>
+              <Button 
+                variant="secondary" 
+                size="small"
+                onClick={handleSaveScheme}
+                disabled={isSaving}
+              >
+                {isSaving ? '保存中...' : '保存方案'}
               </Button>
             </div>
           </div>

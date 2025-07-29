@@ -4,6 +4,11 @@
   display: inline-block;
 }
 
+/* 点击激活状态 */
+.tooltipContainer.clickActive {
+  cursor: pointer;
+}
+
 /* 工具提示主体 */
 .tooltip {
   position: fixed;
@@ -19,6 +24,16 @@
   opacity: 1;
   visibility: visible;
   transform: scale(1);
+}
+
+/* 点击保持显示状态 */
+.tooltip.stayVisible {
+  pointer-events: auto; /* 允许在tooltip内部交互 */
+}
+
+.tooltip.stayVisible .tooltipContent {
+  box-shadow: 0 4px 16px rgba(74, 158, 255, 0.3), var(--shadow-lg);
+  border-color: var(--accent-color);
 }
 
 /* 工具提示内容 */

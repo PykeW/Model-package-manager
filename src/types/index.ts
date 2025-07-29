@@ -152,6 +152,7 @@ export interface ModelAssociationPanelProps {
   onUpdatePriority: (modelId: string, priority: number) => void;
   onBack: () => void;
   loading?: boolean;
+  showOnlyAssociated?: boolean;
 }
 
 /**

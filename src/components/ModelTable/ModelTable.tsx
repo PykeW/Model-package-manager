@@ -125,7 +125,7 @@ export const ModelTable: React.FC<ModelTableProps> = ({
     {
       key: 'tags',
       label: '标签',
-      width: '22%',
+      width: '28%',
       render: (value: unknown) => {
         const tags = Array.isArray(value) ? value : [];
         
@@ -178,7 +178,7 @@ export const ModelTable: React.FC<ModelTableProps> = ({
     {
       key: 'actions',
       label: '操作',
-      width: '22%',
+      width: '16%',
       render: (_, model) => (
         <div className={styles.actionsCell}>
           {/* 关联/取消关联按钮 */}

@@ -66,10 +66,11 @@
 .tableSection {
   flex: 1;
   padding: 0;
-  overflow: hidden;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   min-height: 0; /* 确保flex子项可以收缩 */
+  max-height: calc(100vh - 200px); /* 限制最大高度，确保能滚动 */
 }
 
 .table {

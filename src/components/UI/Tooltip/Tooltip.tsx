@@ -7,6 +7,7 @@ interface TooltipProps {
   delay?: number;
   position?: 'top' | 'bottom' | 'left' | 'right';
   className?: string;
+  clickToStay?: boolean; // 新增：是否支持点击保持显示
 }
 
 export const Tooltip: React.FC<TooltipProps> = ({
@@ -14,11 +15,13 @@ export const Tooltip: React.FC<TooltipProps> = ({
   children,
   delay = 500,
   position = 'top',
-  className = ''
+  className = '',
+  clickToStay = false
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const [actualPosition, setActualPosition] = useState(position);
+  const [isClickActive, setIsClickActive] = useState(false); // 新增：点击激活状态
   const timeoutRef = useRef<number | null>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -212,41 +215,98 @@ export const Tooltip: React.FC<TooltipProps> = ({
     });
   };
 
-  const handleMouseEnter = () => {
+  const showTooltipContent = () => {
+    const optimalPosition = calculateOptimalPosition();
+    setActualPosition(optimalPosition);
     setIsVisible(true);
-    timeoutRef.current = window.setTimeout(() => {
-      const optimalPosition = calculateOptimalPosition();
-      setActualPosition(optimalPosition);
-      setShowTooltip(true);
-      // 延迟一帧来确保DOM更新后再设置位置
-      requestAnimationFrame(() => {
-        updateTooltipPosition();
-      });
-    }, delay);
+    setShowTooltip(true);
+    // 延迟一帧来确保DOM更新后再设置位置
+    requestAnimationFrame(() => {
+      updateTooltipPosition();
+    });
+  };
+
+  const hideTooltipContent = () => {
+    if (!isClickActive) {
+      setIsVisible(false);
+      setShowTooltip(false);
+    }
+  };
+
+  const handleMouseEnter = () => {
+    if (!clickToStay || !isClickActive) {
+      if (timeoutRef.current) {
+        window.clearTimeout(timeoutRef.current);
+      }
+      timeoutRef.current = window.setTimeout(() => {
+        showTooltipContent();
+      }, delay);
+    }
   };
 
   const handleMouseLeave = () => {
-    setIsVisible(false);
-    setShowTooltip(false);
     if (timeoutRef.current) {
       window.clearTimeout(timeoutRef.current);
+    }
+    if (!clickToStay || !isClickActive) {
+      hideTooltipContent();
+    }
+  };
+
+  const handleClick = (e: React.MouseEvent) => {
+    if (clickToStay) {
+      e.stopPropagation();
+      if (isClickActive) {
+        // 如果已经激活，点击关闭
+        setIsClickActive(false);
+        setIsVisible(false);
+        setShowTooltip(false);
+      } else {
+        // 激活点击模式
+        setIsClickActive(true);
+        showTooltipContent();
+      }
+    }
+  };
+
+  // 点击外部关闭
+  const handleClickOutside = (e: MouseEvent) => {
+    if (clickToStay && isClickActive && 
+        containerRef.current && 
+        tooltipRef.current &&
+        !containerRef.current.contains(e.target as Node) &&
+        !tooltipRef.current.contains(e.target as Node)) {
+      setIsClickActive(false);
+      setIsVisible(false);
+      setShowTooltip(false);
     }
   };
 
   useEffect(() => {
-    return () => {
-      if (timeoutRef.current) {
-        window.clearTimeout(timeoutRef.current);
-      }
-    };
-  }, []);
+    if (clickToStay) {
+      document.addEventListener('click', handleClickOutside);
+      return () => {
+        document.removeEventListener('click', handleClickOutside);
+        if (timeoutRef.current) {
+          window.clearTimeout(timeoutRef.current);
+        }
+      };
+    } else {
+      return () => {
+        if (timeoutRef.current) {
+          window.clearTimeout(timeoutRef.current);
+        }
+      };
+    }
+  }, [clickToStay, isClickActive]);
 
   return (
     <div
       ref={containerRef}
-      className={`${styles.tooltipContainer} ${className}`}
+      className={`${styles.tooltipContainer} ${className} ${isClickActive ? styles.clickActive : ''}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
     >
       {children}
       {isVisible && (
@@ -254,7 +314,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
           ref={tooltipRef}
           className={`${styles.tooltip} ${styles[actualPosition]} ${
             showTooltip ? styles.visible : ''
-          }`}
+          } ${isClickActive ? styles.stayVisible : ''}`}
         >
           <div className={styles.tooltipContent}>
             {content}

@@ -16,7 +16,8 @@ export const ModelAssociationPanel: React.FC<ModelAssociationPanelProps> = ({
   onDisassociate,
   onUpdatePriority,
   onBack,
-  loading = false
+  loading = false,
+  showOnlyAssociated = false
 }) => {
   // 选择状态管理
   const [selectionState, setSelectionState] = useState<ModelSelectionState>({
@@ -37,7 +38,14 @@ export const ModelAssociationPanel: React.FC<ModelAssociationPanelProps> = ({
 
   // 筛选可用模型
   const filteredModels = useMemo(() => {
-    return availableModels.filter(model => {
+    let modelsToFilter = availableModels;
+    
+    // 如果只显示已关联模型，先过滤出已关联的模型
+    if (showOnlyAssociated) {
+      modelsToFilter = availableModels.filter(model => associatedModelIds.has(model.id));
+    }
+    
+    return modelsToFilter.filter(model => {
       const matchesSearch = searchTerm === '' || 
         model.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         model.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
@@ -46,7 +54,7 @@ export const ModelAssociationPanel: React.FC<ModelAssociationPanelProps> = ({
       
       return matchesSearch && matchesType;
     });
-  }, [availableModels, searchTerm, filterType]);
+  }, [availableModels, searchTerm, filterType, showOnlyAssociated, associatedModelIds]);
 
   // 处理单个模型选择
   const handleModelSelect = (modelId: string, isSelected: boolean) => {
@@ -137,8 +145,15 @@ export const ModelAssociationPanel: React.FC<ModelAssociationPanelProps> = ({
             ← 返回模型管理
           </Button>
           <div className={styles.titleSection}>
-            <h2 className={styles.title}>模型关联配置</h2>
-            <p className={styles.subtitle}>为运行方案选择和配置AI模型</p>
+            <h2 className={styles.title}>
+              {showOnlyAssociated ? '管理关联模型' : '模型关联配置'}
+            </h2>
+            <p className={styles.subtitle}>
+              {showOnlyAssociated 
+                ? '查看和管理当前方案已关联的AI模型' 
+                : '为运行方案选择和配置AI模型'
+              }
+            </p>
           </div>
         </div>
       </header>
@@ -236,7 +251,9 @@ export const ModelAssociationPanel: React.FC<ModelAssociationPanelProps> = ({
       {/* 模型列表 */}
       <section className={styles.modelList}>
         <div className={styles.listHeader}>
-          <h3 className={styles.listTitle}>可用模型 ({filteredModels.length})</h3>
+          <h3 className={styles.listTitle}>
+            {showOnlyAssociated ? `已关联模型 (${filteredModels.length})` : `可用模型 (${filteredModels.length})`}
+          </h3>
         </div>
         
         <div className={styles.modelGrid}>
