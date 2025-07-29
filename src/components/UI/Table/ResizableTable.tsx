@@ -1,16 +1,16 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Table } from './Table';
-import type { TableColumn, TableProps } from '../../../types';
+import type { TableColumn } from '../../../types';
 import styles from './ResizableTable.module.css';
 
-interface ResizableTableProps<T> {
+interface ResizableTableProps<T extends Record<string, unknown>> {
   columns: TableColumn<T>[];
   data: T[];
   onRowClick?: (row: T, index: number) => void;
   className?: string;
 }
 
-export function ResizableTable<T>({ columns, data, onRowClick, className }: ResizableTableProps<T>) {
+export function ResizableTable<T extends Record<string, unknown>>({ columns, data, onRowClick, className }: ResizableTableProps<T>) {
   const [columnWidths, setColumnWidths] = useState<Record<string, number>>({});
   const tableRef = useRef<HTMLTableElement>(null);
   const resizingRef = useRef<{
@@ -112,8 +112,7 @@ export function ResizableTable<T>({ columns, data, onRowClick, className }: Resi
 
   return (
     <div className={`${styles.resizableTableContainer} ${className || ''}`}>
-      <Table
-        ref={tableRef}
+      <Table<T>
         columns={enhancedColumns}
         data={data}
         onRowClick={onRowClick}

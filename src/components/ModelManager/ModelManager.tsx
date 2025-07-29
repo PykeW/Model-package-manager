@@ -60,9 +60,7 @@ export const ModelManager: React.FC<ModelManagerProps> = ({
     return filteredModels;
   }, [filteredModels, viewMode, associations, currentScheme]);
 
-  const handleRowClick = (model: Model) => {
-    console.log('Selected model:', model);
-  };
+
 
   const handleSortChange = (newSort: ModelSort | null) => {
     setSort(newSort);
@@ -198,7 +196,7 @@ export const ModelManager: React.FC<ModelManagerProps> = ({
         <ModelTable
           models={viewFilteredModels}
           loading={loading}
-          onRowClick={handleRowClick}
+          onRowClick={undefined}
           onSort={handleSortChange}
           currentSort={sort}
           className={styles.table}

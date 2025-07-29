@@ -3,7 +3,7 @@
  * 定义AI模型的数据结构和相关类型
  */
 
-export interface Model {
+export interface Model extends Record<string, unknown> {
   id: string;
   name: string;
   type: 'segmentation' | 'detection';
@@ -55,5 +55,5 @@ export interface ModelTableColumn {
   label: string;
   sortable?: boolean;
   width?: string;
-  render?: (value: any, model: Model) => React.ReactNode;
+  render?: (value: unknown, model: Model) => React.ReactNode;
 }

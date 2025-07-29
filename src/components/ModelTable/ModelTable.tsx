@@ -291,7 +291,7 @@ export const ModelTable: React.FC<ModelTableProps> = ({
 
   return (
     <div className={[styles.modelTable, className].filter(Boolean).join(' ')}>
-      <Table
+      <Table<Model>
         data={models}
         columns={enhancedColumns}
         loading={loading}

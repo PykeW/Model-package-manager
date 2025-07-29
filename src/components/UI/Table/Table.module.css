@@ -114,6 +114,9 @@
 .tableRow {
   transition: background-color var(--transition-fast);
   cursor: default;
+  height: 64px !important; /* 强制固定行高，确保切换视图时高度一致 */
+  max-height: 64px !important; /* 防止内容撑开 */
+  overflow: hidden !important; /* 隐藏超出的内容 */
 }
 
 .tableRow:hover {
@@ -135,6 +138,10 @@
   border-bottom: 1px solid #4a4a4a;
   border-right: 1px solid #4a4a4a;
   vertical-align: middle;
+  box-sizing: border-box;
+  height: 64px !important; /* 强制单元格高度 */
+  max-height: 64px !important; /* 防止内容撑开 */
+  overflow: hidden !important; /* 隐藏超出的内容 */
 }
 
 .tableCell:first-child {

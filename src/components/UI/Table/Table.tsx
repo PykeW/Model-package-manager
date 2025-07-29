@@ -6,7 +6,7 @@ import { useState, useRef, useCallback } from 'react';
 import type { TableProps } from '../../../types';
 import styles from './Table.module.css';
 
-export const Table = <T extends Record<string, any>>({
+export const Table = <T extends Record<string, unknown>>({
   data,
   columns,
   loading = false,
@@ -37,31 +37,6 @@ export const Table = <T extends Record<string, any>>({
     }
   };
 
-  const handleResizeStart = useCallback((e: React.MouseEvent, columnIndex: number) => {
-    e.preventDefault();
-    
-    if (!tableRef.current) return;
-    
-    const headerCells = tableRef.current.querySelectorAll('th');
-    const currentCell = headerCells[columnIndex] as HTMLElement;
-    const nextCell = headerCells[columnIndex + 1] as HTMLElement;
-    
-    if (!currentCell || !nextCell) return;
-
-    resizingRef.current = {
-      columnIndex,
-      startX: e.clientX,
-      startWidth: currentCell.offsetWidth,
-      nextWidth: nextCell.offsetWidth,
-    };
-
-    setIsResizing(true);
-    document.addEventListener('mousemove', handleResizeMove);
-    document.addEventListener('mouseup', handleResizeEnd);
-    document.body.style.cursor = 'col-resize';
-    document.body.style.userSelect = 'none';
-  }, []);
-
   const handleResizeMove = useCallback((e: MouseEvent) => {
     if (!resizingRef.current || !tableRef.current) return;
 
@@ -89,6 +64,31 @@ export const Table = <T extends Record<string, any>>({
     document.body.style.cursor = '';
     document.body.style.userSelect = '';
   }, [handleResizeMove]);
+
+  const handleResizeStart = useCallback((e: React.MouseEvent, columnIndex: number) => {
+    e.preventDefault();
+    
+    if (!tableRef.current) return;
+    
+    const headerCells = tableRef.current.querySelectorAll('th');
+    const currentCell = headerCells[columnIndex] as HTMLElement;
+    const nextCell = headerCells[columnIndex + 1] as HTMLElement;
+    
+    if (!currentCell || !nextCell) return;
+
+    resizingRef.current = {
+      columnIndex,
+      startX: e.clientX,
+      startWidth: currentCell.offsetWidth,
+      nextWidth: nextCell.offsetWidth,
+    };
+
+    setIsResizing(true);
+    document.addEventListener('mousemove', handleResizeMove);
+    document.addEventListener('mouseup', handleResizeEnd);
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+  }, [handleResizeMove, handleResizeEnd]);
 
   return (
     <div className={styles.tableWrapper}>
@@ -157,7 +157,7 @@ export const Table = <T extends Record<string, any>>({
               <tr
                 key={rowIndex}
                 className={styles.tableRow}
-                onClick={() => handleRowClick(row, rowIndex)}
+                onClick={onRowClick ? () => handleRowClick(row, rowIndex) : undefined}
                 tabIndex={onRowClick ? 0 : undefined}
                 role={onRowClick ? 'button' : undefined}
               >
@@ -171,7 +171,7 @@ export const Table = <T extends Record<string, any>>({
                   >
                     {column.render
                       ? column.render(row[column.key], row, rowIndex)
-                      : row[column.key]}
+                      : String(row[column.key] ?? '')}
                   </td>
                 ))}
               </tr>

@@ -153,14 +153,15 @@
   min-width: 160px;
   width: 100%;
   box-sizing: border-box;
+  flex-wrap: wrap; /* 允许换行 */
 }
 
 .actionButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   padding: 0;
   background-color: transparent;
   border: 1px solid transparent;
@@ -287,7 +288,6 @@
   gap: var(--spacing-xs);
   flex-wrap: wrap;
   max-width: 100%;
-  min-height: 32px; /* 确保一致的行高 */
 }
 
 .tag {
