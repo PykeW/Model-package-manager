@@ -99,13 +99,13 @@ export const ModelManager: React.FC<ModelManagerProps> = ({
   };
 
   // 处理模型关联
-  const handleAssociate = (modelIds: string[], priority: number = 5) => {
+  const handleAssociate = (modelIds: string[]) => {
     if (!currentScheme) return;
     
     const newAssociations: ModelAssociationType[] = modelIds.map(modelId => ({
       modelId,
       schemeId: currentScheme.id,
-      priority,
+      priority: 5, // 固定优先级
       associatedAt: new Date().toISOString(),
       isEnabled: true,
       config: {
@@ -134,7 +134,7 @@ export const ModelManager: React.FC<ModelManagerProps> = ({
 
   // 单个模型关联处理函数
   const handleSingleAssociate = (modelId: string) => {
-    handleAssociate([modelId], 5);
+          handleAssociate([modelId]);
   };
 
   // 单个模型取消关联处理函数
@@ -223,8 +223,7 @@ export const ModelManager: React.FC<ModelManagerProps> = ({
               <span className={styles.schemeLabel}>当前方案</span>
               <div className={styles.schemeName}>{currentScheme.name}</div>
               <div className={styles.schemeStats}>
-                已关联: <strong>{getAssociationsBySchemeId(currentScheme.id).filter(a => a.isEnabled).length}</strong> 个模型
-                {' | '}优先级: <strong>{currentScheme.priority}</strong>
+                已关联: <strong>{getAssociationsBySchemeId(currentScheme.id).length}</strong> 个模型
               </div>
             </div>
             <div className={styles.schemeActions}>

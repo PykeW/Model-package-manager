@@ -14,7 +14,6 @@ export const ModelAssociationPanel: React.FC<ModelAssociationPanelProps> = ({
   associatedModels,
   onAssociate,
   onDisassociate,
-  onUpdatePriority,
   onBack,
   loading = false,
   showOnlyAssociated = false
@@ -22,8 +21,7 @@ export const ModelAssociationPanel: React.FC<ModelAssociationPanelProps> = ({
   // 选择状态管理
   const [selectionState, setSelectionState] = useState<ModelSelectionState>({
     selectedModels: new Set<string>(),
-    selectAll: false,
-    bulkPriority: 5
+    selectAll: false
   });
 
   // 搜索和筛选状态
@@ -93,7 +91,7 @@ export const ModelAssociationPanel: React.FC<ModelAssociationPanelProps> = ({
   const handleBatchAssociate = () => {
     const selectedIds = Array.from(selectionState.selectedModels);
     if (selectedIds.length > 0) {
-      onAssociate(selectedIds, selectionState.bulkPriority);
+      onAssociate(selectedIds);
       // 清空选择
       setSelectionState(prev => ({
         ...prev,
@@ -123,7 +121,7 @@ export const ModelAssociationPanel: React.FC<ModelAssociationPanelProps> = ({
     if (associatedModelIds.has(model.id)) {
       onDisassociate([model.id]);
     } else {
-      onAssociate([model.id], 5);
+      onAssociate([model.id]);
     }
   };
 
@@ -173,10 +171,7 @@ export const ModelAssociationPanel: React.FC<ModelAssociationPanelProps> = ({
           <p className={styles.schemeDescription}>{currentScheme.description}</p>
           <div className={styles.schemeStats}>
             <span className={styles.statItem}>
-              已关联模型: <strong>{associatedModels.filter(a => a.isEnabled).length}</strong>
-            </span>
-            <span className={styles.statItem}>
-              方案优先级: <strong>{currentScheme.priority}</strong>
+              已关联模型: <strong>{associatedModels.length}</strong>
             </span>
           </div>
         </div>
@@ -216,18 +211,6 @@ export const ModelAssociationPanel: React.FC<ModelAssociationPanelProps> = ({
           </label>
           
           <div className={styles.bulkActions}>
-            <input
-              type="number"
-              min="1"
-              max="10"
-              value={selectionState.bulkPriority}
-              onChange={(e) => setSelectionState(prev => ({
-                ...prev, 
-                bulkPriority: parseInt(e.target.value) || 5
-              }))}
-              className={styles.priorityInput}
-              placeholder="优先级"
-            />
             <Button
               onClick={handleBatchAssociate}
               disabled={selectionState.selectedModels.size === 0}
@@ -312,22 +295,9 @@ export const ModelAssociationPanel: React.FC<ModelAssociationPanelProps> = ({
                     )}
                   </div>
 
-                  {isAssociated && association && (
+                  {isAssociated && association && association.config?.notes && (
                     <div className={styles.associationInfo}>
-                      <div className={styles.priorityInfo}>
-                        优先级: 
-                        <input
-                          type="number"
-                          min="1"
-                          max="10"
-                          value={association.priority}
-                          onChange={(e) => onUpdatePriority(model.id, parseInt(e.target.value) || 5)}
-                          className={styles.priorityInput}
-                        />
-                      </div>
-                      {association.config?.notes && (
-                        <p className={styles.associationNotes}>{association.config.notes}</p>
-                      )}
+                      <p className={styles.associationNotes}>{association.config.notes}</p>
                     </div>
                   )}
                 </div>

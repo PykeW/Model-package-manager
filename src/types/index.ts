@@ -147,9 +147,8 @@ export interface ModelAssociationPanelProps {
   currentScheme: SchemeType;
   availableModels: Model[];
   associatedModels: ModelAssociationType[];
-  onAssociate: (modelIds: string[], priority?: number) => void;
+  onAssociate: (modelIds: string[]) => void;
   onDisassociate: (modelIds: string[]) => void;
-  onUpdatePriority: (modelId: string, priority: number) => void;
   onBack: () => void;
   loading?: boolean;
   showOnlyAssociated?: boolean;
@@ -161,5 +160,4 @@ export interface ModelAssociationPanelProps {
 export interface ModelSelectionState {
   selectedModels: Set<string>;
   selectAll: boolean;
-  bulkPriority: number;
 }
