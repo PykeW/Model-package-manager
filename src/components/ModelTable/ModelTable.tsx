@@ -214,14 +214,9 @@ export const ModelTable: React.FC<ModelTableProps> = ({
             content={<ModelPreview model={model} />}
             position="top"
             delay={300}
-            clickToStay={true}
           >
             <button
               className={`${styles.actionButton} ${styles.detailButton}`}
-              onClick={(e) => {
-                e.stopPropagation();
-                console.log('查看详情:', model.name);
-              }}
               title="查看详情"
             >
               详情

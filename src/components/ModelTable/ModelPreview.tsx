@@ -7,17 +7,6 @@ interface ModelPreviewProps {
 }
 
 export const ModelPreview: React.FC<ModelPreviewProps> = ({ model }) => {
-  // 生成标签统计数据
-  const getTagStats = () => {
-    const stats = model.tags.map((tag) => ({
-      tag,
-      count: Math.floor(Math.random() * 50) + 10 // 模拟轮廓数量 10-59
-    }));
-    return stats;
-  };
-
-  const tagStats = getTagStats();
-
   return (
     <div className={styles.modelPreview}>
       {/* 预览图片 */}
@@ -54,19 +43,6 @@ export const ModelPreview: React.FC<ModelPreviewProps> = ({ model }) => {
           <span className={styles.value}>
             {model.type === 'segmentation' ? '512×512' : '640×640'}
           </span>
-        </div>
-      </div>
-
-      {/* 标签统计 */}
-      <div className={styles.tagStats}>
-        <h5 className={styles.sectionTitle}>标签统计</h5>
-        <div className={styles.statsGrid}>
-          {tagStats.map((stat, index) => (
-            <div key={index} className={styles.statItem}>
-              <span className={styles.statTag}>{stat.tag}</span>
-              <span className={styles.statCount}>{stat.count}个</span>
-            </div>
-          ))}
         </div>
       </div>
     </div>

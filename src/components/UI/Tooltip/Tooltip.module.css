@@ -4,11 +4,6 @@
   display: inline-block;
 }
 
-/* 点击激活状态 */
-.tooltipContainer.clickActive {
-  cursor: pointer;
-}
-
 /* 工具提示主体 */
 .tooltip {
   position: fixed;
@@ -16,24 +11,12 @@
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+  transition: opacity 0.2s ease-in-out;
 }
 
 .tooltip.visible {
   opacity: 1;
   visibility: visible;
-}
-
-/* 点击保持显示状态 */
-.tooltip.stayVisible {
-  pointer-events: auto; /* 允许在tooltip内部交互 */
-}
-
-.tooltip.stayVisible .tooltipContent {
-  box-shadow: 0 4px 16px rgba(74, 158, 255, 0.3), var(--shadow-lg);
-  border-color: var(--accent-color);
-  border-width: 2px;
-  /* 添加轻微的蓝色光晕效果，表示锁定状态 */
-  box-shadow: 0 0 0 2px rgba(74, 158, 255, 0.2), var(--shadow-lg);
 }
 
 /* 工具提示内容 */

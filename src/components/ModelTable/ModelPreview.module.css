@@ -1,7 +1,7 @@
 /* 模型预览容器 */
 .modelPreview {
-  min-width: 280px;
-  max-width: 400px;
+  min-width: 260px;
+  max-width: 420px;
   width: max-content;
   color: var(--text-primary);
 }
@@ -12,8 +12,8 @@
 }
 
 .placeholder {
-  width: 200px;
-  height: 150px;
+  width: 240px;
+  height: 180px;
   border-radius: var(--radius-sm);
   overflow: hidden;
   border: 1px solid var(--border-color);
@@ -29,8 +29,6 @@
 /* 基本信息 */
 .basicInfo {
   margin-bottom: var(--spacing-md);
-  padding-bottom: var(--spacing-sm);
-  border-bottom: 1px solid var(--border-color);
 }
 
 .modelName {
@@ -57,75 +55,7 @@
   font-weight: var(--font-medium);
 }
 
-/* 章节标题 */
-.sectionTitle {
-  font-size: var(--font-sm);
-  font-weight: var(--font-semibold);
-  color: var(--text-primary);
-  margin: 0 0 8px 0;
-}
 
-/* 推荐规格 */
-.specifications {
-  margin-bottom: var(--spacing-md);
-  padding-bottom: var(--spacing-sm);
-  border-bottom: 1px solid var(--border-color);
-}
-
-.specItem {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: var(--spacing-xs);
-}
-
-.specLabel {
-  font-size: var(--font-xs);
-  color: var(--text-secondary);
-}
-
-.specValue {
-  font-size: var(--font-xs);
-  color: var(--accent-color);
-  font-weight: var(--font-medium);
-  font-family: 'Monaco', 'Consolas', monospace;
-}
-
-.statsGrid {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.statItem {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 2px 0;
-}
-
-.statTag {
-  font-size: 11px;
-  color: var(--text-secondary);
-  background-color: var(--tertiary-bg);
-  padding: 1px 4px;
-  border-radius: 3px;
-  border: 1px solid var(--border-color);
-  flex-shrink: 0;
-  max-width: 280px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.statCount {
-  font-size: 11px;
-  color: var(--warning-color);
-  font-weight: var(--font-medium);
-  flex-shrink: 0;
-  min-width: 40px;
-  text-align: right;
-}
 
 
 

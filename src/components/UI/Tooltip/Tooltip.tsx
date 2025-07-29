@@ -7,7 +7,6 @@ interface TooltipProps {
   delay?: number;
   position?: 'top' | 'bottom' | 'left' | 'right';
   className?: string;
-  clickToStay?: boolean; // 新增：是否支持点击保持显示
 }
 
 export const Tooltip: React.FC<TooltipProps> = ({
@@ -15,13 +14,11 @@ export const Tooltip: React.FC<TooltipProps> = ({
   children,
   delay = 500,
   position = 'top',
-  className = '',
-  clickToStay = false
+  className = ''
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const [actualPosition, setActualPosition] = useState(position);
-  const [isClickActive, setIsClickActive] = useState(false); // 新增：点击激活状态
   const timeoutRef = useRef<number | null>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -41,7 +38,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
     const spaceLeft = container.left;
     const spaceRight = viewport.width - container.right;
 
-    const minTooltipWidth = 280; // ModelPreview的最小宽度
+    const minTooltipWidth = 260; // ModelPreview的最小宽度
     const minMargin = 20; // 最小边距
 
     // 优先选择垂直空间最大的位置（上或下）
@@ -73,8 +70,8 @@ export const Tooltip: React.FC<TooltipProps> = ({
       height: window.innerHeight
     };
 
-    const maxTooltipWidth = 400;
-    const minTooltipWidth = 280;
+    const maxTooltipWidth = 420;
+    const minTooltipWidth = 260;
     const margin = 20;
 
     // 首先让内容恢复自然高度以测量实际需要的空间
@@ -227,86 +224,40 @@ export const Tooltip: React.FC<TooltipProps> = ({
   };
 
   const hideTooltipContent = () => {
-    if (!isClickActive) {
-      setIsVisible(false);
-      setShowTooltip(false);
-    }
+    setIsVisible(false);
+    setShowTooltip(false);
   };
 
   const handleMouseEnter = () => {
-    if (!clickToStay || !isClickActive) {
-      if (timeoutRef.current) {
-        window.clearTimeout(timeoutRef.current);
-      }
-      timeoutRef.current = window.setTimeout(() => {
-        showTooltipContent();
-      }, delay);
+    if (timeoutRef.current) {
+      window.clearTimeout(timeoutRef.current);
     }
+    timeoutRef.current = window.setTimeout(() => {
+      showTooltipContent();
+    }, delay);
   };
 
   const handleMouseLeave = () => {
     if (timeoutRef.current) {
       window.clearTimeout(timeoutRef.current);
     }
-    if (!clickToStay || !isClickActive) {
-      hideTooltipContent();
-    }
-  };
-
-  const handleClick = (e: React.MouseEvent) => {
-    if (clickToStay) {
-      e.stopPropagation();
-      if (isClickActive) {
-        // 如果已经激活，点击关闭
-        setIsClickActive(false);
-        setIsVisible(false);
-        setShowTooltip(false);
-      } else {
-        // 激活点击模式
-        setIsClickActive(true);
-        showTooltipContent();
-      }
-    }
-  };
-
-  // 点击外部关闭
-  const handleClickOutside = (e: MouseEvent) => {
-    if (clickToStay && isClickActive && 
-        containerRef.current && 
-        tooltipRef.current &&
-        !containerRef.current.contains(e.target as Node) &&
-        !tooltipRef.current.contains(e.target as Node)) {
-      setIsClickActive(false);
-      setIsVisible(false);
-      setShowTooltip(false);
-    }
+    hideTooltipContent();
   };
 
   useEffect(() => {
-    if (clickToStay) {
-      document.addEventListener('click', handleClickOutside);
-      return () => {
-        document.removeEventListener('click', handleClickOutside);
-        if (timeoutRef.current) {
-          window.clearTimeout(timeoutRef.current);
-        }
-      };
-    } else {
-      return () => {
-        if (timeoutRef.current) {
-          window.clearTimeout(timeoutRef.current);
-        }
-      };
-    }
-  }, [clickToStay, isClickActive]);
+    return () => {
+      if (timeoutRef.current) {
+        window.clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <div
       ref={containerRef}
-      className={`${styles.tooltipContainer} ${className} ${isClickActive ? styles.clickActive : ''}`}
+      className={`${styles.tooltipContainer} ${className}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onClick={handleClick}
     >
       {children}
       {isVisible && (
@@ -314,7 +265,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
           ref={tooltipRef}
           className={`${styles.tooltip} ${styles[actualPosition]} ${
             showTooltip ? styles.visible : ''
-          } ${isClickActive ? styles.stayVisible : ''}`}
+          }`}
         >
           <div className={styles.tooltipContent}>
             {content}
