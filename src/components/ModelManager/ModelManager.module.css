@@ -58,7 +58,7 @@
 
 .filterSection {
   flex-shrink: 0;
-  padding: var(--spacing-sm) var(--spacing-md);
+  padding: var(--spacing-sm) 0;
   background-color: #242424;
   border-bottom: 1px solid #4a4a4a;
 }
