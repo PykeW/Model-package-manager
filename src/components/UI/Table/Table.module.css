@@ -25,7 +25,7 @@
 }
 
 .tableHeaderCell {
-  padding: 2px 0; /* 进一步减少表头内边距，使用固定值2px */
+  padding: 8px 12px; /* 增加表头内边距，确保文字与边框有足够间距 */
   text-align: center;
   font-weight: var(--font-semibold);
   color: #e0e0e0;
@@ -114,8 +114,8 @@
 .tableRow {
   transition: background-color var(--transition-fast);
   cursor: default;
-  height: 32px !important; /* 进一步降低行高，从40px减少到32px */
-  max-height: 32px !important; /* 防止内容撑开 */
+  height: 48px !important; /* 增加行高，从32px增加到48px，为内容提供更多空间 */
+  max-height: 48px !important; /* 防止内容撑开 */
   overflow: hidden !important; /* 隐藏超出的内容 */
 }
 
@@ -133,14 +133,14 @@
 }
 
 .tableCell {
-  padding: 2px 0; /* 进一步减少内边距，使用固定值2px */
+  padding: 8px 12px; /* 增加表格单元格内边距，确保文字与边框有足够间距 */
   color: #b0b0b0;
   border-bottom: 1px solid #4a4a4a;
   border-right: 1px solid #4a4a4a;
   vertical-align: middle;
   box-sizing: border-box;
-  height: 32px !important; /* 进一步降低单元格高度，从40px减少到32px */
-  max-height: 32px !important; /* 防止内容撑开 */
+  height: 48px !important; /* 增加单元格高度，从32px增加到48px，为内容提供更多空间 */
+  max-height: 48px !important; /* 防止内容撑开 */
   overflow: hidden !important; /* 隐藏超出的内容 */
 }
 

@@ -17,9 +17,13 @@
   font-weight: var(--font-bold);
   color: var(--text-tertiary);
   background-color: var(--tertiary-bg);
-  padding: 1px var(--spacing-sm); /* 减少内边距 */
+  padding: 4px 8px; /* 增加序号单元格内边距，确保与边框有足够间距 */
   border-radius: var(--radius-sm);
   font-size: var(--font-xs); /* 增大字体大小，从10px改为xs */
+  text-align: center; /* 确保居中对齐 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* 模型名称列样式 */
