@@ -255,7 +255,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
   return (
     <div
       ref={containerRef}
-      className={`${styles.tooltipContainer} ${className}`}
+      className={`${styles.tooltipContainer}${className ? ` ${className}` : ''}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

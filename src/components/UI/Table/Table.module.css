@@ -13,7 +13,7 @@
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-size: var(--font-sm);
+  font-size: var(--font-md); /* 增大表格字体大小，从sm改为md */
   table-layout: fixed;
 }
 
@@ -25,7 +25,7 @@
 }
 
 .tableHeaderCell {
-  padding: var(--spacing-sm) 0;
+  padding: 2px 0; /* 进一步减少表头内边距，使用固定值2px */
   text-align: center;
   font-weight: var(--font-semibold);
   color: #e0e0e0;
@@ -114,8 +114,8 @@
 .tableRow {
   transition: background-color var(--transition-fast);
   cursor: default;
-  height: 64px !important; /* 强制固定行高，确保切换视图时高度一致 */
-  max-height: 64px !important; /* 防止内容撑开 */
+  height: 32px !important; /* 进一步降低行高，从40px减少到32px */
+  max-height: 32px !important; /* 防止内容撑开 */
   overflow: hidden !important; /* 隐藏超出的内容 */
 }
 
@@ -133,14 +133,14 @@
 }
 
 .tableCell {
-  padding: var(--spacing-sm) 0;
+  padding: 2px 0; /* 进一步减少内边距，使用固定值2px */
   color: #b0b0b0;
   border-bottom: 1px solid #4a4a4a;
   border-right: 1px solid #4a4a4a;
   vertical-align: middle;
   box-sizing: border-box;
-  height: 64px !important; /* 强制单元格高度 */
-  max-height: 64px !important; /* 防止内容撑开 */
+  height: 32px !important; /* 进一步降低单元格高度，从40px减少到32px */
+  max-height: 32px !important; /* 防止内容撑开 */
   overflow: hidden !important; /* 隐藏超出的内容 */
 }
 

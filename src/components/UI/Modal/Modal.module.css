@@ -61,14 +61,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--spacing-lg);
+  padding: var(--spacing-sm); /* 减少头部内边距，从lg改为sm */
   border-bottom: 1px solid var(--border-color);
   background-color: var(--secondary-bg);
 }
 
 .title {
   margin: 0;
-  font-size: var(--font-lg);
+  font-size: var(--font-lg); /* 增大标题字体大小，从md改为lg */
   font-weight: var(--font-semibold);
   color: var(--text-primary);
 }
@@ -77,8 +77,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 28px; /* 减少关闭按钮尺寸，从32px改为28px */
+  height: 28px; /* 减少关闭按钮尺寸，从32px改为28px */
   padding: 0;
   background: none;
   border: none;

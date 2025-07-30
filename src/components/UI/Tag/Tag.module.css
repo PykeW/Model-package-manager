@@ -7,7 +7,7 @@
   align-items: center;
   gap: var(--spacing-xs);
   padding: var(--spacing-xs) var(--spacing-sm);
-  font-size: var(--font-xs);
+  font-size: var(--font-sm); /* 增大标签字体大小，从xs改为sm */
   font-weight: var(--font-medium);
   border-radius: var(--radius-sm);
   white-space: nowrap;

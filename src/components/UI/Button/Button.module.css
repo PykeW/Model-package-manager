@@ -27,21 +27,21 @@
 
 /* 尺寸变体 */
 .small {
-  height: var(--btn-height-sm);
+  height: 28px; /* 减少小按钮高度，使其与表格行更协调 */
   padding: 0 var(--spacing-sm);
-  font-size: var(--font-xs);
+  font-size: var(--font-sm); /* 增大小按钮字体大小，从xs改为sm */
 }
 
 .medium {
   height: var(--btn-height-md);
   padding: 0 var(--spacing-md);
-  font-size: var(--font-sm);
+  font-size: var(--font-md); /* 增大中按钮字体大小，从sm改为md */
 }
 
 .large {
   height: var(--btn-height-lg);
   padding: 0 var(--spacing-lg);
-  font-size: var(--font-md);
+  font-size: var(--font-lg); /* 增大大按钮字体大小，从md改为lg */
 }
 
 /* 颜色变体 */

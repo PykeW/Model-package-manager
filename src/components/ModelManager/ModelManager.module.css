@@ -15,7 +15,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--spacing-md) var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-sm); /* 进一步减少头部内边距 */
   background-color: #2a2a2a;
   border-bottom: 1px solid #4a4a4a;
   flex-shrink: 0;
@@ -28,7 +28,7 @@
 }
 
 .title {
-  font-size: var(--font-2xl);
+  font-size: var(--font-xl); /* 增大标题字体大小，从lg改为xl */
   font-weight: var(--font-bold);
   color: #ffffff;
   margin: 0;
@@ -39,11 +39,11 @@
 
 .title::before {
   content: '🤖';
-  font-size: var(--font-3xl);
+  font-size: var(--font-2xl); /* 增大emoji字体大小，从xl改为2xl */
 }
 
 .subtitle {
-  font-size: var(--font-sm);
+  font-size: var(--font-sm); /* 增大副标题字体大小，从xs改为sm */
   color: #b0b0b0;
   margin: 0;
 }
@@ -54,11 +54,9 @@
   gap: var(--spacing-sm);
 }
 
-
-
 .filterSection {
   flex-shrink: 0;
-  padding: var(--spacing-sm) 0;
+  padding: var(--spacing-xs) 0;
   background-color: #242424;
   border-bottom: 1px solid #4a4a4a;
 }
@@ -69,27 +67,27 @@
   overflow: auto;
   display: flex;
   flex-direction: column;
-  min-height: 0; /* 确保flex子项可以收缩 */
-  max-height: calc(100vh - 200px); /* 限制最大高度，确保能滚动 */
+  min-height: 0;
+  max-height: calc(100vh - 140px); /* 进一步减少限制高度，给表格更多空间 */
 }
 
 .table {
   flex: 1;
-  min-height: 0; /* 允许表格内容滚动 */
+  min-height: 0;
 }
 
 .footer {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-xs);
   flex-shrink: 0;
   background-color: #2a2a2a;
   border-top: 1px solid #4a4a4a;
-  padding: var(--spacing-md);
+  padding: var(--spacing-xs); /* 进一步减少底部内边距 */
 }
 
 .modelCount {
-  font-size: var(--font-xs);
+  font-size: var(--font-sm); /* 增大模型计数字体大小，从xs改为sm */
   color: #b0b0b0;
 }
 
@@ -98,7 +96,7 @@
   .header {
     flex-direction: column;
     align-items: stretch;
-    gap: var(--spacing-md);
+    gap: var(--spacing-sm); /* 减少响应式间距 */
   }
   
   .actions {
@@ -106,8 +104,6 @@
     flex-wrap: wrap;
   }
 }
-
-
 
 /* 高对比度模式 */
 @media (prefers-contrast: high) {
@@ -120,13 +116,13 @@
   }
 }
 
-/* ========== 新增：方案面板样式 ========== */
+/* ========== 方案面板样式 ========== */
 .schemePanel {
   background: linear-gradient(135deg, #2a4a5a, #1a3a4a);
   border: 1px solid #4a6a7a;
   border-radius: 6px;
-  padding: var(--spacing-md);
-  margin: var(--spacing-sm) 0;
+  padding: var(--spacing-xs); /* 进一步减少方案面板内边距 */
+  margin: var(--spacing-xs) 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -141,7 +137,7 @@
 }
 
 .schemeLabel {
-  font-size: var(--font-xs);
+  font-size: var(--font-sm); /* 增大方案标签字体大小，从xs改为sm */
   color: #8cc8ff;
   font-weight: 500;
   text-transform: uppercase;
@@ -151,25 +147,25 @@
 }
 
 .schemeStatus {
-  font-size: var(--font-xs);
+  font-size: var(--font-sm); /* 增大方案状态字体大小，从xs改为sm */
   font-weight: 500;
-  color: #52c41a; /* 默认运行中颜色 */
+  color: #52c41a;
   display: inline-block;
 }
 
 .schemeStatus.inactive {
-  color: #faad14; /* 停用状态颜色 */
+  color: #faad14;
 }
 
 .schemeName {
-  font-size: var(--font-lg);
+  font-size: var(--font-lg); /* 增大方案名称字体大小，从md改为lg */
   font-weight: 600;
   color: #ffffff;
   margin-bottom: var(--spacing-xs);
 }
 
 .schemeStats {
-  font-size: var(--font-xs);
+  font-size: var(--font-sm); /* 增大方案统计字体大小，从xs改为sm */
   color: #b0c4de;
 }
 
@@ -198,8 +194,6 @@
   box-shadow: 0 4px 8px rgba(74, 158, 255, 0.3);
   filter: brightness(1.1);
 }
-
-
 
 /* 错误消息样式 */
 .errorMessage {

@@ -11,10 +11,10 @@
 
 .select {
   width: 100%;
-  height: var(--input-height-md);
+  height: 28px; /* 减少选择框高度，使其与按钮协调 */
   padding: 0 var(--spacing-xl) 0 var(--spacing-md);
   font-family: inherit;
-  font-size: var(--font-sm);
+  font-size: var(--font-sm); /* 调整字体大小，从md改为sm，与按钮保持一致 */
   color: var(--text-primary);
   background-color: var(--secondary-bg);
   border: 1px solid var(--border-color);
@@ -75,7 +75,7 @@
 }
 
 .errorMessage {
-  font-size: var(--font-xs);
+  font-size: var(--font-sm); /* 增大错误消息字体大小，从xs改为sm */
   color: var(--error-color);
   margin-top: var(--spacing-xs);
   display: flex;

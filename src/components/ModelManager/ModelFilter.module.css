@@ -5,18 +5,18 @@
 .filterContainer {
   display: flex;
   align-items: end;
-  gap: var(--spacing-md);
-  padding: var(--spacing-md);
+  gap: var(--spacing-sm); /* 减少间距，从md改为sm */
+  padding: var(--spacing-sm); /* 减少内边距，从md改为sm */
   background-color: #2a2a2a;
   border: 1px solid #4a4a4a;
   border-radius: 4px;
-  margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-sm); /* 减少底部间距，从md改为sm */
   /* 移除 flex-wrap: wrap; 确保内容在一行显示 */
 }
 
 .searchContainer {
-  flex: 0 0 300px;
-  max-width: 300px;
+  flex: 0 0 250px; /* 减少搜索容器宽度，从300px改为250px */
+  max-width: 250px; /* 减少最大宽度，从300px改为250px */
 }
 
 .searchInput {
@@ -26,7 +26,7 @@
 .filtersContainer {
   display: flex;
   align-items: end;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-xs); /* 进一步减少间距，从sm改为xs */
   flex: 1;
   justify-content: flex-end;
   min-width: 0;
@@ -37,12 +37,12 @@
   flex-direction: row;
   align-items: center;
   gap: var(--spacing-xs);
-  min-width: 100px;
+  min-width: 80px; /* 减少最小宽度，从100px改为80px */
   flex-shrink: 1;
 }
 
 .filterLabel {
-  font-size: var(--font-xs);
+  font-size: var(--font-sm); /* 增大标签字体大小，从xs改为sm */
   font-weight: var(--font-medium);
   color: #b0b0b0;
   white-space: nowrap;
@@ -50,7 +50,7 @@
 }
 
 .filterSelect {
-  min-width: 120px;
+  min-width: 100px; /* 减少选择框最小宽度，从120px改为100px */
 }
 
 .resetButton {
