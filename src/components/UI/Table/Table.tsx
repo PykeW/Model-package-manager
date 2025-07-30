@@ -4,6 +4,7 @@
 
 import { useState, useRef, useCallback } from 'react';
 import type { TableProps } from '../../../types';
+import { TableFilterDropdown } from './TableFilterDropdown';
 import styles from './Table.module.css';
 
 export const Table = <T extends Record<string, unknown>>({
@@ -18,6 +19,11 @@ export const Table = <T extends Record<string, unknown>>({
 }: TableProps<T>) => {
   const [isResizing, setIsResizing] = useState(false);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
+  const [filterDropdown, setFilterDropdown] = useState<{
+    columnKey: string;
+    columnLabel: string;
+    position: { x: number; y: number };
+  } | null>(null);
   const tableRef = useRef<HTMLTableElement>(null);
   const resizingRef = useRef<{
     columnIndex: number;
@@ -39,13 +45,33 @@ export const Table = <T extends Record<string, unknown>>({
     }
   };
 
-  const handleFilterClick = (columnKey: string) => {
+  const handleFilterClick = (columnKey: string, event: React.MouseEvent) => {
+    const column = columns.find(col => col.key === columnKey);
+    if (!column) return;
+
+    const rect = event.currentTarget.getBoundingClientRect();
+    const position = {
+      x: rect.left,
+      y: rect.bottom + 2
+    };
+
+    setFilterDropdown({
+      columnKey,
+      columnLabel: column.label,
+      position
+    });
+    setActiveFilter(columnKey);
+  };
+
+  const handleFilterChange = (columnKey: string, values: string[]) => {
     if (onFilter) {
-      // 切换筛选状态
-      setActiveFilter(activeFilter === columnKey ? null : columnKey);
-      console.log('Filter clicked for column:', columnKey);
-      onFilter(columnKey, '');
+      onFilter(columnKey, values.join(','));
     }
+  };
+
+  const closeFilterDropdown = () => {
+    setFilterDropdown(null);
+    setActiveFilter(null);
   };
 
   const handleResizeMove = useCallback((e: MouseEvent) => {
@@ -101,6 +127,22 @@ export const Table = <T extends Record<string, unknown>>({
     document.body.style.userSelect = 'none';
   }, [handleResizeMove, handleResizeEnd]);
 
+  // 为类型列生成筛选选项
+  const getFilterOptions = (columnKey: string) => {
+    if (columnKey === 'type') {
+      // 从原始数据中统计数量，而不是从当前筛选后的数据
+      const allData = data; // 这里应该传入原始数据，暂时使用当前数据
+      const segmentationCount = allData.filter(item => item[columnKey] === 'segmentation').length;
+      const detectionCount = allData.filter(item => item[columnKey] === 'detection').length;
+      
+      return [
+        { value: 'segmentation', label: '分割模型', count: segmentationCount },
+        { value: 'detection', label: '检测模型', count: detectionCount }
+      ];
+    }
+    return [];
+  };
+
   return (
     <div className={styles.tableWrapper}>
       {loading && (
@@ -122,6 +164,18 @@ export const Table = <T extends Record<string, unknown>>({
           </div>
           <span className={styles.loadingText}>加载中...</span>
         </div>
+      )}
+      
+      {filterDropdown && (
+        <TableFilterDropdown
+          columnKey={filterDropdown.columnKey}
+          columnLabel={filterDropdown.columnLabel}
+          options={getFilterOptions(filterDropdown.columnKey)}
+          selectedValues={[]}
+          onFilterChange={(values) => handleFilterChange(filterDropdown.columnKey, values)}
+          onClose={closeFilterDropdown}
+          position={filterDropdown.position}
+        />
       )}
       
       <table ref={tableRef} className={tableClasses} {...props}>
@@ -153,7 +207,7 @@ export const Table = <T extends Record<string, unknown>>({
                     className={`${styles.filterIcon} ${activeFilter === column.key ? styles.active : ''}`}
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleFilterClick(column.key);
+                      handleFilterClick(column.key, e);
                     }}
                     style={{ cursor: 'pointer' }}
                   >

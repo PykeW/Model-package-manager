@@ -2,7 +2,7 @@
  * ModelTable组件 - 模型表格展示
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import type { Model, ModelSort, TableColumn, ModelAssociationType } from '../../types';
 import { Table, Tag, Tooltip } from '../UI';
 import { formatFileSize } from '../../utils';
@@ -35,6 +35,13 @@ export const ModelTable: React.FC<ModelTableProps> = ({
   onAssociate,
   onDisassociate
 }) => {
+  const [filteredModels, setFilteredModels] = useState<Model[]>(models);
+  const [activeFilters, setActiveFilters] = useState<Record<string, string[]>>({});
+  
+  // 当models数据变化时，更新filteredModels
+  useEffect(() => {
+    setFilteredModels(models);
+  }, [models]);
   
   // 检查模型是否已关联
   const isModelAssociated = (modelId: string): boolean => {
@@ -287,14 +294,37 @@ export const ModelTable: React.FC<ModelTableProps> = ({
 
   const handleFilter = (columnKey: string, value: string) => {
     console.log('Filter triggered for column:', columnKey, 'with value:', value);
-    // 这里可以实现具体的筛选逻辑
-    // 例如：显示筛选弹窗、更新筛选状态等
+    
+    const newFilters = { ...activeFilters };
+    
+    if (value) {
+      const filterValues = value.split(',');
+      newFilters[columnKey] = filterValues;
+    } else {
+      delete newFilters[columnKey];
+    }
+    
+    setActiveFilters(newFilters);
+    
+    // 应用所有筛选条件
+    let filtered = models;
+    Object.entries(newFilters).forEach(([key, values]) => {
+      if (values.length > 0) {
+        filtered = filtered.filter(model => {
+          const modelValue = model[key as keyof Model];
+          return values.includes(String(modelValue));
+        });
+      }
+    });
+    
+    setFilteredModels(filtered);
+    console.log('Filtered models:', filtered);
   };
 
   return (
     <div className={[styles.modelTable, className].filter(Boolean).join(' ')}>
       <Table<Model>
-        data={models}
+        data={filteredModels}
         columns={enhancedColumns}
         loading={loading}
         onRowClick={handleRowClick}
