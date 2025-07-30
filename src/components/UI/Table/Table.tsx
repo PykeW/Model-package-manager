@@ -124,7 +124,10 @@ export const Table = <T extends Record<string, unknown>>({
                   column.sortable && styles.sortable,
                   column.align && styles[`align-${column.align}`]
                 ].filter(Boolean).join(' ')}
-                style={{ width: column.width }}
+                style={{ 
+                  width: column.width,
+                  minWidth: column.minWidth
+                }}
               >
                 {column.label}
                 {column.sortable && (

@@ -46,6 +46,7 @@ export const ModelTable: React.FC<ModelTableProps> = ({
       key: 'index',
       label: '序号',
       width: '5%',
+      minWidth: '60px',
       render: (_, __, index) => (
         <span className={styles.indexCell}>
           {String(index + 1).padStart(2, '0')}
@@ -56,7 +57,8 @@ export const ModelTable: React.FC<ModelTableProps> = ({
       key: 'name',
       label: '模型名称',
       sortable: true,
-      width: '18%',
+      width: '20%',
+      minWidth: '200px',
       render: (value: unknown, model: Model) => (
         <div className={styles.nameCell}>
           <span className={styles.modelName}>{String(value)}</span>
@@ -81,7 +83,8 @@ export const ModelTable: React.FC<ModelTableProps> = ({
       key: 'type',
       label: '类型',
       sortable: true,
-      width: '11%',
+      width: '10%',
+      minWidth: '100px',
       render: (value: unknown) => (
         <Tag
           label={String(value) === 'segmentation' ? '分割模型' : '检测模型'}
@@ -89,12 +92,12 @@ export const ModelTable: React.FC<ModelTableProps> = ({
         />
       )
     },
-
     {
       key: 'size',
       label: '大小',
       sortable: true,
-      width: '9%',
+      width: '8%',
+      minWidth: '80px',
       render: (_, model: Model) => (
         <span className={styles.sizeCell}>
           {formatFileSize(model.metadata.size)}
@@ -105,7 +108,8 @@ export const ModelTable: React.FC<ModelTableProps> = ({
       key: 'version',
       label: '版本',
       sortable: true,
-      width: '13%',
+      width: '12%',
+      minWidth: '120px',
       render: (value: unknown) => {
         const versionValue = String(value);
         return (
@@ -125,7 +129,8 @@ export const ModelTable: React.FC<ModelTableProps> = ({
     {
       key: 'tags',
       label: '标签',
-      width: '28%',
+      width: '20%',
+      minWidth: '180px',
       render: (value: unknown) => {
         const tags = Array.isArray(value) ? value : [];
         
@@ -178,7 +183,8 @@ export const ModelTable: React.FC<ModelTableProps> = ({
     {
       key: 'actions',
       label: '操作',
-      width: '16%',
+      width: '15%',
+      minWidth: '150px',
       render: (_, model) => (
         <div className={styles.actionsCell}>
           {/* 关联/取消关联按钮 */}

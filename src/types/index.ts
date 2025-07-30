@@ -66,6 +66,7 @@ export interface TableColumn<T = Record<string, unknown>> {
   label: string;
   sortable?: boolean;
   width?: string;
+  minWidth?: string; // 最小宽度，用于响应式布局
   align?: 'left' | 'center' | 'right';
   render?: (value: unknown, row: T, index: number) => React.ReactNode;
 }

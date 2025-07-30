@@ -282,24 +282,30 @@
 .tagsCell {
   display: flex;
   align-items: center;
-  gap: 2px; /* 减少标签间距，使用固定值2px */
-  flex-wrap: wrap;
+  gap: 4px;
+  flex-wrap: nowrap; /* 防止换行，确保标签在一行显示 */
   max-width: 100%;
+  overflow: hidden;
+  min-width: 0; /* 允许flex项目收缩 */
 }
 
 .tag {
   font-size: var(--font-xs); /* 增大标签字体大小，从10px改为xs */
+  flex-shrink: 0; /* 防止标签被压缩 */
+  white-space: nowrap; /* 防止文字换行 */
 }
 
 .moreTagsIndicator {
   font-size: var(--font-xs); /* 增大字体大小，从10px改为xs */
   color: var(--text-tertiary);
   background-color: var(--tertiary-bg);
-  padding: 1px var(--spacing-xs); /* 减少内边距 */
+  padding: 2px 6px;
   border-radius: var(--radius-sm);
   border: 1px dashed var(--border-color);
   cursor: pointer;
   transition: all var(--transition-fast);
+  flex-shrink: 0; /* 防止被压缩 */
+  white-space: nowrap; /* 防止文字换行 */
 }
 
 .moreTagsIndicator:hover {
