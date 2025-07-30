@@ -65,6 +65,7 @@ export interface TableColumn<T = Record<string, unknown>> {
   key: string;
   label: string;
   sortable?: boolean;
+  filterable?: boolean; // 是否可筛选
   width?: string;
   minWidth?: string; // 最小宽度，用于响应式布局
   align?: 'left' | 'center' | 'right';
@@ -77,6 +78,7 @@ export interface TableProps<T = Record<string, unknown>> {
   loading?: boolean;
   emptyMessage?: string;
   onRowClick?: (row: T, index: number) => void;
+  onFilter?: (columnKey: string, value: string) => void;
   className?: string;
 }
 

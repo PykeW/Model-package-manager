@@ -12,10 +12,12 @@ export const Table = <T extends Record<string, unknown>>({
   loading = false,
   emptyMessage = '暂无数据',
   onRowClick,
+  onFilter,
   className = '',
   ...props
 }: TableProps<T>) => {
   const [isResizing, setIsResizing] = useState(false);
+  const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const tableRef = useRef<HTMLTableElement>(null);
   const resizingRef = useRef<{
     columnIndex: number;
@@ -34,6 +36,15 @@ export const Table = <T extends Record<string, unknown>>({
   const handleRowClick = (row: T, index: number) => {
     if (onRowClick) {
       onRowClick(row, index);
+    }
+  };
+
+  const handleFilterClick = (columnKey: string) => {
+    if (onFilter) {
+      // 切换筛选状态
+      setActiveFilter(activeFilter === columnKey ? null : columnKey);
+      console.log('Filter clicked for column:', columnKey);
+      onFilter(columnKey, '');
     }
   };
 
@@ -121,7 +132,7 @@ export const Table = <T extends Record<string, unknown>>({
                 key={column.key}
                 className={[
                   styles.tableHeaderCell,
-                  column.sortable && styles.sortable,
+                  (column.sortable || column.filterable) && styles.sortable,
                   column.align && styles[`align-${column.align}`]
                 ].filter(Boolean).join(' ')}
                 style={{ 
@@ -134,6 +145,20 @@ export const Table = <T extends Record<string, unknown>>({
                   <span className={styles.sortIcon}>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M7 10l5-5 5 5M7 14l5 5 5-5" />
+                    </svg>
+                  </span>
+                )}
+                {column.filterable && (
+                  <span 
+                    className={`${styles.filterIcon} ${activeFilter === column.key ? styles.active : ''}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleFilterClick(column.key);
+                    }}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 6.707A1 1 0 013 6V4z" />
                     </svg>
                   </span>
                 )}

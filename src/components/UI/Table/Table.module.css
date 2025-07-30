@@ -107,6 +107,43 @@
   height: 14px;
 }
 
+.filterIcon {
+  display: inline-flex;
+  align-items: center;
+  margin-left: var(--spacing-xs);
+  opacity: 0.5;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.sortable:hover .filterIcon {
+  opacity: 1;
+}
+
+.filterIcon:hover {
+  opacity: 1;
+  transform: scale(1.1);
+  color: var(--accent-color);
+}
+
+.filterIcon:active {
+  transform: scale(0.95);
+}
+
+.filterIcon.active {
+  color: var(--accent-color);
+  opacity: 1;
+}
+
+.filterIcon.active svg {
+  fill: var(--accent-color);
+}
+
+.filterIcon svg {
+  width: 14px;
+  height: 14px;
+}
+
 .tableBody {
   background-color: #2a2a2a;
 }

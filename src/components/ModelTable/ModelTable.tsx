@@ -82,14 +82,16 @@ export const ModelTable: React.FC<ModelTableProps> = ({
     {
       key: 'type',
       label: '类型',
-      sortable: true,
+      filterable: true,
       width: '10%',
       minWidth: '100px',
       render: (value: unknown) => (
-        <Tag
-          label={String(value) === 'segmentation' ? '分割模型' : '检测模型'}
-          color={String(value) === 'segmentation' ? 'primary' : 'secondary'}
-        />
+        <div className={styles.typeCell}>
+          <Tag
+            label={String(value) === 'segmentation' ? '分割模型' : '检测模型'}
+            color={String(value) === 'segmentation' ? 'primary' : 'secondary'}
+          />
+        </div>
       )
     },
     {
@@ -283,6 +285,12 @@ export const ModelTable: React.FC<ModelTableProps> = ({
     }
   };
 
+  const handleFilter = (columnKey: string, value: string) => {
+    console.log('Filter triggered for column:', columnKey, 'with value:', value);
+    // 这里可以实现具体的筛选逻辑
+    // 例如：显示筛选弹窗、更新筛选状态等
+  };
+
   return (
     <div className={[styles.modelTable, className].filter(Boolean).join(' ')}>
       <Table<Model>
@@ -290,6 +298,7 @@ export const ModelTable: React.FC<ModelTableProps> = ({
         columns={enhancedColumns}
         loading={loading}
         onRowClick={handleRowClick}
+        onFilter={handleFilter}
         emptyMessage="暂无模型数据"
         className={styles.table}
       />

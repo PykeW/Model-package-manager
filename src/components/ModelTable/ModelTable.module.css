@@ -95,6 +95,15 @@
   justify-content: center;
 }
 
+/* 类型列样式 */
+.typeCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
 /* 大小列样式 */
 .sizeCell {
   font-family: 'Monaco', 'Consolas', monospace;
