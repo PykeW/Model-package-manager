@@ -5,7 +5,8 @@
 import React, { useState, useEffect } from 'react';
 import type { Model, ModelSort, TableColumn, ModelAssociationType } from '../../types';
 import { Table, Tag, Tooltip } from '../UI';
-import { formatFileSize } from '../../utils';
+import { formatFileSize, formatDate } from '../../utils';
+import { parseVersion } from '../../utils/versionGenerator';
 import { ModelPreview } from './ModelPreview';
 import styles from './ModelTable.module.css';
 
@@ -23,6 +24,43 @@ export interface ModelTableProps {
   onDisassociate?: (modelId: string) => void;
 }
 
+// 版本选项类型
+interface VersionOption {
+  value: string;
+  label: string;
+}
+
+// 生成版本选项的函数
+const generateVersionOptions = (model: Model): VersionOption[] => {
+  const currentVersion = model.version;
+  const parsed = parseVersion(currentVersion);
+  
+  if (!parsed) {
+    // 如果不是新格式，返回当前版本
+    return [{ value: currentVersion, label: currentVersion }];
+  }
+  
+  const options: VersionOption[] = [];
+  
+  // 根据模型类型选择基础模型列表
+  const segmentationModels = ['bisegnet', 'sam', 'deeplab', 'maskrcnn', 'unet'];
+  const detectionModels = ['YOLOv8', 'YOLOv11', 'fasterrcnn'];
+  
+  const baseModels = model.type === 'segmentation' ? segmentationModels : detectionModels;
+  
+  // 生成8个连续序号的版本选项，但只在同类型模型内循环
+  for (let i = 1; i <= 8; i++) {
+    const baseModel = baseModels[(i - 1) % baseModels.length]; // 在同类型内循环使用基础模型
+    const version = `${baseModel}_${i}`;
+    options.push({
+      value: version,
+      label: version
+    });
+  }
+  
+  return options;
+};
+
 export const ModelTable: React.FC<ModelTableProps> = ({
   models,
   loading = false,
@@ -37,16 +75,45 @@ export const ModelTable: React.FC<ModelTableProps> = ({
 }) => {
   const [filteredModels, setFilteredModels] = useState<Model[]>(models);
   const [activeFilters, setActiveFilters] = useState<Record<string, string[]>>({});
+  const [modelVersions, setModelVersions] = useState<Record<string, string>>({});
   
-  // 当models数据变化时，更新filteredModels
+  // 当models数据变化时，更新filteredModels和版本状态
   useEffect(() => {
     setFilteredModels(models);
+    // 初始化每个模型的版本状态
+    const initialVersions: Record<string, string> = {};
+    models.forEach(model => {
+      initialVersions[model.id] = model.version;
+    });
+    setModelVersions(initialVersions);
   }, [models]);
   
   // 检查模型是否已关联
   const isModelAssociated = (modelId: string): boolean => {
     return associations.some(assoc => assoc.modelId === modelId && assoc.isEnabled);
   };
+
+  // 处理版本切换
+  const handleVersionChange = (modelId: string, newVersion: string) => {
+    setModelVersions(prev => ({
+      ...prev,
+      [modelId]: newVersion
+    }));
+    console.log('Version changed:', newVersion);
+  };
+
+  // 根据版本号生成训练完成时间
+  const getTrainingCompletedAt = (version: string): Date => {
+    const baseDate = new Date('2024-01-01T00:00:00');
+    const parsed = parseVersion(version);
+    if (!parsed) return baseDate;
+    
+    // 版本号越大，时间越晚（每个版本号增加1小时）
+    const hoursToAdd = parsed.sequenceNumber * 60; // 每分钟增加
+    return new Date(baseDate.getTime() + hoursToAdd * 60 * 1000);
+  };
+
+
   // 定义表格列
   const columns: TableColumn<Model>[] = [
     {
@@ -64,8 +131,8 @@ export const ModelTable: React.FC<ModelTableProps> = ({
       key: 'name',
       label: '模型名称',
       sortable: true,
-      width: '20%',
-      minWidth: '200px',
+      width: '16%', /* 缩短模型名称列宽度 */
+      minWidth: '160px', /* 缩短最小宽度 */
       render: (value: unknown, model: Model) => (
         <div className={styles.nameCell}>
           <span className={styles.modelName}>{String(value)}</span>
@@ -117,29 +184,53 @@ export const ModelTable: React.FC<ModelTableProps> = ({
       key: 'version',
       label: '版本',
       sortable: true,
-      width: '12%',
-      minWidth: '120px',
-      render: (value: unknown) => {
-        const versionValue = String(value);
+      width: '16%', /* 增加版本列宽度 */
+      minWidth: '160px', /* 增加最小宽度 */
+      render: (value: unknown, model: Model) => {
+        const versionValue = modelVersions[model.id] || String(value);
+        // 根据模型类型和基础模型生成版本选项
+        const versionOptions = generateVersionOptions(model);
+        
         return (
           <div className={styles.versionCell}>
             <select
               className={styles.versionSelect}
               value={versionValue}
-              onChange={(e) => console.log('Version changed:', e.target.value)}
+              onChange={(e) => handleVersionChange(model.id, e.target.value)}
+              title={versionValue} /* 添加tooltip显示完整版本号 */
             >
-              <option value={versionValue}>{versionValue}</option>
-              {/* 这里可以添加其他版本选项 */}
+              {versionOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
             </select>
           </div>
         );
       }
     },
     {
+      key: 'trainingCompletedAt',
+      label: '训练完成时间',
+      sortable: true,
+      width: '14%',
+      minWidth: '150px',
+      render: (_: unknown, model: Model) => {
+        const versionValue = modelVersions[model.id] || model.version;
+        const date = getTrainingCompletedAt(versionValue);
+        
+        return (
+          <span className={styles.dateCell}>
+            {formatDate(date)}
+          </span>
+        );
+      }
+    },
+    {
       key: 'tags',
       label: '标签',
-      width: '20%',
-      minWidth: '180px',
+      width: '18%',
+      minWidth: '160px',
       render: (value: unknown) => {
         const tags = Array.isArray(value) ? value : [];
         

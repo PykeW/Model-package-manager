@@ -9,6 +9,7 @@ export interface Model extends Record<string, unknown> {
   type: 'segmentation' | 'detection';
   version: string;
   timestamp: Date;
+  trainingCompletedAt?: Date; // 训练完成时间
   tags: string[];
   status: 'active' | 'archived' | 'deprecated';
   metadata: ModelMetadata;

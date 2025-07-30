@@ -128,15 +128,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 160px; /* 增加最小宽度 */
+  width: 100%;
 }
 
 .versionSelect {
-  min-width: 140px;
-  max-width: 180px;
-  width: auto;
-  padding: 1px calc(var(--spacing-sm) + 24px) 1px var(--spacing-sm); /* 减少内边距 */
+  min-width: 160px; /* 增加最小宽度 */
+  max-width: 200px; /* 增加最大宽度 */
+  width: 100%;
+  padding: 2px calc(var(--spacing-md) + 20px) 2px var(--spacing-md); /* 增加内边距 */
   font-family: 'Monaco', 'Consolas', monospace;
-  font-size: var(--font-xs); /* 增大字体大小，从10px改为xs */
+  font-size: var(--font-sm); /* 增大字体大小 */
   font-weight: var(--font-medium);
   color: var(--text-primary);
   background-color: var(--tertiary-bg);
@@ -144,6 +146,27 @@
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition: all var(--transition-fast);
+  text-overflow: ellipsis; /* 添加文本溢出处理 */
+  white-space: nowrap; /* 防止换行 */
+  overflow: hidden; /* 隐藏溢出内容 */
+}
+
+/* 日期列样式 */
+.dateCell {
+  font-family: 'Monaco', 'Consolas', monospace;
+  font-size: var(--font-xs);
+  font-weight: var(--font-medium);
+  color: var(--text-secondary);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.emptyCell {
+  color: var(--text-disabled);
+  font-style: italic;
+  text-align: center;
 }
 
 .versionSelect:hover {
