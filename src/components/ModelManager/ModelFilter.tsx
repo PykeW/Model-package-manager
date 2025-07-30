@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import type { ModelFilter as ModelFilterType, ModelType, ModelStatus } from '../../types';
+import type { ModelFilter as ModelFilterType, ModelType } from '../../types';
 import { Input, Select, Button } from '../UI';
 import styles from './ModelFilter.module.css';
 
@@ -35,12 +35,7 @@ export const ModelFilter: React.FC<ModelFilterProps> = ({
     });
   };
 
-  const handleStatusChange = (value: string) => {
-    onFilterChange({
-      ...filter,
-      status: value ? value as ModelStatus : undefined
-    });
-  };
+
 
   const handleSearchChange = (value: string) => {
     onSearchChange(value);
@@ -52,12 +47,7 @@ export const ModelFilter: React.FC<ModelFilterProps> = ({
     { value: 'detection', label: '检测模型' }
   ];
 
-  const statusOptions = [
-    { value: '', label: '全部状态' },
-    { value: 'active', label: '活跃' },
-    { value: 'archived', label: '归档' },
-    { value: 'deprecated', label: '废弃' }
-  ];
+
 
   return (
     <div className={[styles.filterContainer, className].filter(Boolean).join(' ')}>
@@ -82,15 +72,7 @@ export const ModelFilter: React.FC<ModelFilterProps> = ({
           />
         </div>
         
-        <div className={styles.filterGroup}>
-          <label className={styles.filterLabel}>状态</label>
-          <Select
-            value={filter.status || ''}
-            onChange={handleStatusChange}
-            options={statusOptions}
-            className={styles.filterSelect}
-          />
-        </div>
+
         
         <Button
           onClick={onReset}

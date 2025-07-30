@@ -33,7 +33,6 @@ export type ModelStatus = Model['status'];
 
 export interface ModelFilter {
   type?: ModelType;
-  status?: ModelStatus;
   tags?: string[];
   searchTerm?: string;
 }
@@ -47,7 +46,6 @@ export interface ModelFormData {
   name: string;
   type: ModelType;
   tags: string[];
-  status: ModelStatus;
   metadata: Partial<ModelMetadata>;
 }
 

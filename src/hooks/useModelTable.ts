@@ -51,10 +51,7 @@ export const useModelTable = ({
       result = result.filter(model => model.type === filter.type);
     }
 
-    // 应用状态过滤
-    if (filter.status) {
-      result = result.filter(model => model.status === filter.status);
-    }
+
 
     // 应用标签过滤
     if (filter.tags && filter.tags.length > 0) {

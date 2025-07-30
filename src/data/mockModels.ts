@@ -8,7 +8,7 @@ import type { Model } from '../types';
 export const mockModels: Model[] = [
   {
     id: 'model-1',
-    name: '手机屏幕正面检测',
+    name: '手机屏幕正面',
     type: 'segmentation',
     version: 'bisegnet_1',
     timestamp: new Date('2024-12-15T09:30:00'),
@@ -37,9 +37,9 @@ export const mockModels: Model[] = [
   },
   {
     id: 'model-2',
-    name: '手机屏幕背面检测',
+    name: '手机屏幕背面',
     type: 'segmentation',
-    version: 'sam_2',
+    version: 'bisegnet_2', // 使用相同基础模型
     timestamp: new Date('2024-12-10T16:45:00'),
     trainingCompletedAt: new Date('2024-12-10T15:30:00'),
     tags: ['上2', '下1', '边缘区域', '摄像头区域', '指纹识别'],
@@ -59,9 +59,9 @@ export const mockModels: Model[] = [
   },
   {
     id: 'model-3',
-    name: '手机边框检测',
+    name: '手机边框',
     type: 'detection',
-    version: 'YOLOv8_1',
+    version: 'YOLOv8_1', // 改回检测模型的基础模型
     timestamp: new Date('2024-12-08T11:20:00'),
     trainingCompletedAt: new Date('2024-12-08T10:15:00'),
     tags: ['上3', '下2', '关键节点', '金属边框', '塑料边框'],
@@ -81,7 +81,7 @@ export const mockModels: Model[] = [
   },
   {
     id: 'model-4',
-    name: '手机摄像头检测',
+    name: '手机摄像头',
     type: 'detection',
     version: 'YOLOv8_2',
     timestamp: new Date('2024-12-05T14:15:00'),
@@ -103,7 +103,7 @@ export const mockModels: Model[] = [
   },
   {
     id: 'model-5',
-    name: '手机电池检测',
+    name: '手机电池',
     type: 'segmentation',
     version: 'deeplab_3',
     timestamp: new Date('2024-12-01T10:30:00'),
@@ -125,7 +125,7 @@ export const mockModels: Model[] = [
   },
   {
     id: 'model-6',
-    name: '手机按键检测',
+    name: '手机按键',
     type: 'detection',
     version: 'YOLOv8_3',
     timestamp: new Date('2024-11-28T13:45:00'),
@@ -147,7 +147,7 @@ export const mockModels: Model[] = [
   },
   {
     id: 'model-7',
-    name: '手机扬声器检测',
+    name: '手机扬声器',
     type: 'segmentation',
     version: 'maskrcnn_4',
     timestamp: new Date('2024-11-25T08:20:00'),
@@ -169,7 +169,7 @@ export const mockModels: Model[] = [
   },
   {
     id: 'model-8',
-    name: '手机充电口检测',
+    name: '手机充电口',
     type: 'detection',
     version: 'YOLOv8_4',
     timestamp: new Date('2024-11-20T15:10:00'),
@@ -191,7 +191,7 @@ export const mockModels: Model[] = [
   },
   {
     id: 'model-9',
-    name: '平板屏幕正面检测',
+    name: '平板屏幕正面',
     type: 'segmentation',
     version: 'unet_5',
     timestamp: new Date('2024-11-15T12:30:00'),
@@ -213,7 +213,7 @@ export const mockModels: Model[] = [
   },
   {
     id: 'model-10',
-    name: '笔记本电脑键盘检测',
+    name: '笔记本电脑键盘',
     type: 'detection',
     version: 'YOLOv11_1',
     timestamp: new Date('2024-11-10T09:45:00'),
@@ -235,7 +235,7 @@ export const mockModels: Model[] = [
   },
   {
     id: 'model-11',
-    name: '智能手表表盘检测',
+    name: '智能手表表盘',
     type: 'segmentation',
     version: 'fasterrcnn_6',
     timestamp: new Date('2024-11-05T14:20:00'),
@@ -257,7 +257,7 @@ export const mockModels: Model[] = [
   },
   {
     id: 'model-12',
-    name: '耳机外观检测',
+    name: '耳机外观',
     type: 'detection',
     version: 'YOLOv8_5',
     timestamp: new Date('2024-10-30T11:15:00'),
@@ -275,6 +275,138 @@ export const mockModels: Model[] = [
       inputShape: [3, 400, 400],
       outputShape: [1500, 5],
       parameters: 12582912
+    }
+  },
+  {
+    id: 'model-13',
+    name: '手机主板',
+    type: 'segmentation',
+    version: 'sam_7',
+    timestamp: new Date('2024-10-25T16:30:00'),
+    trainingCompletedAt: new Date('2024-10-25T15:15:00'),
+    tags: ['主板', '电路', '芯片', '焊接', '电容'],
+    status: 'active',
+    metadata: {
+      size: 125829120, // 120MB
+      accuracy: 0.934,
+      framework: 'PyTorch',
+      description: '手机主板缺陷检测模型，支持电路和芯片检测',
+      author: '硬件AI团队',
+      license: 'MIT',
+      trainingDataset: 'PCB Dataset',
+      inputShape: [3, 1024, 1024],
+      outputShape: [100, 81],
+      parameters: 52428800
+    }
+  },
+  {
+    id: 'model-14',
+    name: '手机天线',
+    type: 'detection',
+    version: 'YOLOv8_6',
+    timestamp: new Date('2024-10-20T13:45:00'),
+    trainingCompletedAt: new Date('2024-10-20T12:30:00'),
+    tags: ['天线', '信号', '5G', 'WiFi', '蓝牙'],
+    status: 'active',
+    metadata: {
+      size: 36700160, // 35MB
+      accuracy: 0.867,
+      framework: 'TensorFlow',
+      description: '手机天线缺陷检测模型，支持5G、WiFi、蓝牙天线检测',
+      author: '通信AI团队',
+      license: 'Apache 2.0',
+      trainingDataset: 'Antenna Dataset',
+      inputShape: [3, 512, 512],
+      outputShape: [2000, 5],
+      parameters: 15728640
+    }
+  },
+  {
+    id: 'model-15',
+    name: '手机散热器',
+    type: 'segmentation',
+    version: 'deeplab_8',
+    timestamp: new Date('2024-10-15T10:20:00'),
+    trainingCompletedAt: new Date('2024-10-15T09:05:00'),
+    tags: ['散热器', '导热', '铜管', '风扇', '温度'],
+    status: 'active',
+    metadata: {
+      size: 83886080, // 80MB
+      accuracy: 0.912,
+      framework: 'PyTorch',
+      description: '手机散热器缺陷检测模型，支持导热和散热检测',
+      author: '热管理AI团队',
+      license: 'MIT',
+      trainingDataset: 'Thermal Dataset',
+      inputShape: [3, 768, 768],
+      outputShape: [10000, 90],
+      parameters: 33554432
+    }
+  },
+  {
+    id: 'model-16',
+    name: '手机振动马达',
+    type: 'detection',
+    version: 'YOLOv11_2',
+    timestamp: new Date('2024-10-10T14:30:00'),
+    trainingCompletedAt: new Date('2024-10-10T13:15:00'),
+    tags: ['振动', '马达', '触觉', '反馈', '线性马达'],
+    status: 'active',
+    metadata: {
+      size: 29360128, // 28MB
+      accuracy: 0.845,
+      framework: 'TensorFlow Lite',
+      description: '手机振动马达缺陷检测模型，支持触觉反馈检测',
+      author: '触觉AI团队',
+      license: 'BSD-3-Clause',
+      trainingDataset: 'Haptic Dataset',
+      inputShape: [3, 400, 400],
+      outputShape: [1200, 5],
+      parameters: 10485760
+    }
+  },
+  {
+    id: 'model-17',
+    name: '手机麦克风',
+    type: 'segmentation',
+    version: 'maskrcnn_7',
+    timestamp: new Date('2024-10-05T11:15:00'),
+    trainingCompletedAt: new Date('2024-10-05T10:00:00'),
+    tags: ['麦克风', '音频', '降噪', '通话', '录音'],
+    status: 'active',
+    metadata: {
+      size: 52428800, // 50MB
+      accuracy: 0.889,
+      framework: 'PyTorch',
+      description: '手机麦克风缺陷检测模型，支持音频和降噪检测',
+      author: '音频AI团队',
+      license: 'MIT',
+      trainingDataset: 'Audio Dataset',
+      inputShape: [3, 640, 640],
+      outputShape: [8400, 84],
+      parameters: 20971520
+    }
+  },
+  {
+    id: 'model-18',
+    name: '手机指纹模块',
+    type: 'detection',
+    version: 'fasterrcnn_8',
+    timestamp: new Date('2024-09-30T16:45:00'),
+    trainingCompletedAt: new Date('2024-09-30T15:30:00'),
+    tags: ['指纹', '识别', '安全', '生物识别', '解锁'],
+    status: 'active',
+    metadata: {
+      size: 41943040, // 40MB
+      accuracy: 0.923,
+      framework: 'TensorFlow',
+      description: '手机指纹模块缺陷检测模型，支持生物识别检测',
+      author: '安全AI团队',
+      license: 'Apache 2.0',
+      trainingDataset: 'Biometric Dataset',
+      inputShape: [3, 512, 512],
+      outputShape: [2500, 5],
+      parameters: 16777216
     }
   }
 ];

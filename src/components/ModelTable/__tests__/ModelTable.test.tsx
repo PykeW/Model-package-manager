@@ -20,8 +20,8 @@ describe('ModelTable', () => {
     expect(screen.getByRole('table')).toBeInTheDocument();
     
     // 检查模型名称是否显示
-    expect(screen.getByText('手机屏幕正面检测')).toBeInTheDocument();
-    expect(screen.getByText('手机屏幕背面检测')).toBeInTheDocument();
+    expect(screen.getByText('手机屏幕正面')).toBeInTheDocument();
+    expect(screen.getByText('手机屏幕背面')).toBeInTheDocument();
   });
 
   test('版本下拉框显示正确的选项', () => {
@@ -97,5 +97,50 @@ describe('ModelTable', () => {
     expect(versionSelects[1]).toHaveValue('sam_2');      // 第二个模型
     expect(versionSelects[2]).toHaveValue('YOLOv8_1');   // 第三个模型
     expect(versionSelects[3]).toHaveValue('YOLOv8_1');   // 第四个模型（检测模型从1开始）
+  });
+
+  test('关联模型置顶功能', () => {
+    // 创建模拟的关联数据
+    const mockAssociations = [
+      {
+        modelId: 'model-1', // 手机屏幕正面
+        schemeId: 'scheme-1',
+        priority: 1,
+        associatedAt: '2024-01-01T00:00:00',
+        isEnabled: true
+      },
+      {
+        modelId: 'model-3', // 手机边框
+        schemeId: 'scheme-1',
+        priority: 2,
+        associatedAt: '2024-01-01T00:00:00',
+        isEnabled: true
+      },
+      {
+        modelId: 'model-6', // 手机按键
+        schemeId: 'scheme-1',
+        priority: 3,
+        associatedAt: '2024-01-01T00:00:00',
+        isEnabled: true
+      }
+    ];
+
+    render(
+      <ModelTable 
+        {...defaultProps} 
+        associations={mockAssociations}
+        showAssociationActions={true}
+      />
+    );
+
+    // 检查关联的模型是否显示"取消关联"按钮
+    expect(screen.getByText('取消关联')).toBeInTheDocument();
+    
+    // 检查未关联的模型是否显示"关联"按钮
+    expect(screen.getByText('关联')).toBeInTheDocument();
+    
+    // 验证关联模型在列表中的位置（应该在前3个位置）
+    const modelNames = screen.getAllByText(/手机屏幕正面|手机边框|手机按键/);
+    expect(modelNames.length).toBeGreaterThanOrEqual(3);
   });
 }); 

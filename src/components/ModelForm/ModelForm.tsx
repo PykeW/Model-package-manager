@@ -26,7 +26,6 @@ export const ModelForm: React.FC<ModelFormProps> = ({
   const [formData, setFormData] = useState<ModelFormData>({
     name: model?.name || '',
     type: model?.type || 'segmentation',
-    status: model?.status || 'active',
     tags: model?.tags || [],
     metadata: {
       framework: model?.metadata.framework || '',
@@ -79,11 +78,7 @@ export const ModelForm: React.FC<ModelFormProps> = ({
     { value: 'detection', label: '检测模型' }
   ];
 
-  const statusOptions = [
-    { value: 'active', label: '活跃' },
-    { value: 'archived', label: '归档' },
-    { value: 'deprecated', label: '废弃' }
-  ];
+
 
   const frameworkOptions = [
     { value: 'PyTorch', label: 'PyTorch' },
@@ -120,14 +115,7 @@ export const ModelForm: React.FC<ModelFormProps> = ({
               />
             </div>
 
-            <div className={styles.formGroup}>
-              <label className={styles.label}>状态</label>
-              <Select
-                value={formData.status}
-                onChange={(value) => setFormData({...formData, status: value as any})}
-                options={statusOptions}
-              />
-            </div>
+
           </div>
         </div>
 

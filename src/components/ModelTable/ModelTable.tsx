@@ -2,7 +2,7 @@
  * ModelTable组件 - 模型表格展示
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import type { Model, ModelSort, TableColumn, ModelAssociationType } from '../../types';
 import { Table, Tag, Tooltip } from '../UI';
 import { formatFileSize, formatDate } from '../../utils';
@@ -42,15 +42,11 @@ const generateVersionOptions = (model: Model): VersionOption[] => {
   
   const options: VersionOption[] = [];
   
-  // 根据模型类型选择基础模型列表
-  const segmentationModels = ['bisegnet', 'sam', 'deeplab', 'maskrcnn', 'unet'];
-  const detectionModels = ['YOLOv8', 'YOLOv11', 'fasterrcnn'];
+  // 根据当前模型的实际基础模型来生成选项
+  const { baseModel } = parsed;
   
-  const baseModels = model.type === 'segmentation' ? segmentationModels : detectionModels;
-  
-  // 生成8个连续序号的版本选项，但只在同类型模型内循环
+  // 生成8个连续序号的版本选项，使用相同的基础模型
   for (let i = 1; i <= 8; i++) {
-    const baseModel = baseModels[(i - 1) % baseModels.length]; // 在同类型内循环使用基础模型
     const version = `${baseModel}_${i}`;
     options.push({
       value: version,
@@ -77,21 +73,32 @@ export const ModelTable: React.FC<ModelTableProps> = ({
   const [activeFilters, setActiveFilters] = useState<Record<string, string[]>>({});
   const [modelVersions, setModelVersions] = useState<Record<string, string>>({});
   
+  // 检查模型是否已关联
+  const isModelAssociated = useCallback((modelId: string): boolean => {
+    return associations.some(assoc => assoc.modelId === modelId && assoc.isEnabled);
+  }, [associations]);
+  
   // 当models数据变化时，更新filteredModels和版本状态
   useEffect(() => {
-    setFilteredModels(models);
+    // 对模型进行排序：已关联的模型排在前面
+    const sortedModels = [...models].sort((a, b) => {
+      const aAssociated = isModelAssociated(a.id);
+      const bAssociated = isModelAssociated(b.id);
+      
+      if (aAssociated && !bAssociated) return -1; // a已关联，b未关联，a排在前面
+      if (!aAssociated && bAssociated) return 1;  // a未关联，b已关联，b排在前面
+      return 0; // 都关联或都未关联，保持原有顺序
+    });
+    
+    setFilteredModels(sortedModels);
+    
     // 初始化每个模型的版本状态
     const initialVersions: Record<string, string> = {};
     models.forEach(model => {
       initialVersions[model.id] = model.version;
     });
     setModelVersions(initialVersions);
-  }, [models]);
-  
-  // 检查模型是否已关联
-  const isModelAssociated = (modelId: string): boolean => {
-    return associations.some(assoc => assoc.modelId === modelId && assoc.isEnabled);
-  };
+  }, [models, associations, isModelAssociated]);
 
   // 处理版本切换
   const handleVersionChange = (modelId: string, newVersion: string) => {
