@@ -128,27 +128,34 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 160px; /* 增加最小宽度 */
+  min-width: 60px; /* 缩小最小宽度 */
   width: 100%;
 }
 
 .versionSelect {
-  min-width: 160px; /* 增加最小宽度 */
-  max-width: 200px; /* 增加最大宽度 */
+  min-width: 60px; /* 缩小最小宽度 */
+  max-width: 80px; /* 缩小最大宽度 */
   width: 100%;
-  padding: 2px calc(var(--spacing-md) + 20px) 2px var(--spacing-md); /* 增加内边距 */
+  padding: 2px 20px 2px 8px; /* 调整内边距，为下拉箭头留出空间 */
   font-family: 'Monaco', 'Consolas', monospace;
-  font-size: var(--font-sm); /* 增大字体大小 */
+  font-size: var(--font-sm);
   font-weight: var(--font-medium);
   color: var(--text-primary);
   background-color: var(--tertiary-bg);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 4px center;
+  background-repeat: no-repeat;
+  background-size: 16px;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition: all var(--transition-fast);
-  text-overflow: ellipsis; /* 添加文本溢出处理 */
-  white-space: nowrap; /* 防止换行 */
-  overflow: hidden; /* 隐藏溢出内容 */
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  appearance: none; /* 移除默认的下拉箭头 */
+  -webkit-appearance: none; /* Safari兼容 */
+  -moz-appearance: none; /* Firefox兼容 */
 }
 
 /* 日期列样式 */

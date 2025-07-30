@@ -45,9 +45,23 @@ const generateVersionOptions = (model: Model): VersionOption[] => {
   // 根据当前模型的实际基础模型来生成选项
   const { baseModel } = parsed;
   
-  // 生成8个连续序号的版本选项，使用相同的基础模型
+  // 定义不同基础模型列表
+  const baseModels = ['bisegnet', 'sam', 'YOLOv8', 'YOLOv11', 'unet', 'deeplab', 'maskrcnn', 'fasterrcnn'];
+  
+  // 生成8个版本选项
   for (let i = 1; i <= 8; i++) {
-    const version = `${baseModel}_${i}`;
+    let targetBaseModel: string;
+    
+    if (i <= 4) {
+      // 前4个版本使用相同的基础模型
+      targetBaseModel = baseModel;
+    } else {
+      // 后面的版本使用不同的基础模型
+      const modelIndex = (i - 5) % baseModels.length;
+      targetBaseModel = baseModels[modelIndex];
+    }
+    
+    const version = `${targetBaseModel}_${i}`;
     options.push({
       value: version,
       label: version
@@ -164,16 +178,23 @@ export const ModelTable: React.FC<ModelTableProps> = ({
       key: 'type',
       label: '类型',
       filterable: true,
-      width: '10%',
-      minWidth: '100px',
-      render: (value: unknown) => (
-        <div className={styles.typeCell}>
-          <Tag
-            label={String(value) === 'segmentation' ? '分割模型' : '检测模型'}
-            color={String(value) === 'segmentation' ? 'primary' : 'secondary'}
-          />
-        </div>
-      )
+      width: '12%',
+      minWidth: '120px',
+              render: (value: unknown, model: Model) => {
+          const versionValue = modelVersions[model.id] || model.version;
+          const parsed = parseVersion(versionValue);
+          const baseModel = parsed?.baseModel || 'unknown';
+          const typeLabel = String(value) === 'segmentation' ? '分割' : '检测';
+          
+          return (
+            <div className={styles.typeCell}>
+              <Tag
+                label={`${typeLabel}：${baseModel}`}
+                color={String(value) === 'segmentation' ? 'primary' : 'secondary'}
+              />
+            </div>
+          );
+        }
     },
     {
       key: 'size',
@@ -191,12 +212,16 @@ export const ModelTable: React.FC<ModelTableProps> = ({
       key: 'version',
       label: '版本',
       sortable: true,
-      width: '16%', /* 增加版本列宽度 */
-      minWidth: '160px', /* 增加最小宽度 */
+      width: '6%',
+      minWidth: '60px',
       render: (value: unknown, model: Model) => {
         const versionValue = modelVersions[model.id] || String(value);
+        
         // 根据模型类型和基础模型生成版本选项
         const versionOptions = generateVersionOptions(model);
+        
+        const parsed = parseVersion(versionValue);
+        const displayVersion = parsed ? parsed.sequenceNumber.toString() : versionValue;
         
         return (
           <div className={styles.versionCell}>
@@ -206,11 +231,26 @@ export const ModelTable: React.FC<ModelTableProps> = ({
               onChange={(e) => handleVersionChange(model.id, e.target.value)}
               title={versionValue} /* 添加tooltip显示完整版本号 */
             >
-              {versionOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
+              <option value={versionValue}>{displayVersion}</option>
+              {versionOptions
+                .filter((option) => option.value !== versionValue) // 过滤掉当前选中的版本
+                .map((option) => {
+                  const optionParsed = parseVersion(option.value);
+                  let optionDisplay: string;
+                  
+                  if (optionParsed) {
+                    // 只显示数字
+                    optionDisplay = optionParsed.sequenceNumber.toString();
+                  } else {
+                    optionDisplay = option.value;
+                  }
+                  
+                  return (
+                    <option key={option.value} value={option.value}>
+                      {optionDisplay}
+                    </option>
+                  );
+                })}
             </select>
           </div>
         );
@@ -220,8 +260,8 @@ export const ModelTable: React.FC<ModelTableProps> = ({
       key: 'trainingCompletedAt',
       label: '训练完成时间',
       sortable: true,
-      width: '14%',
-      minWidth: '150px',
+      width: '20%',
+      minWidth: '200px',
       render: (_: unknown, model: Model) => {
         const versionValue = modelVersions[model.id] || model.version;
         const date = getTrainingCompletedAt(versionValue);
